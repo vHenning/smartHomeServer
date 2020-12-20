@@ -19,7 +19,7 @@ public:
 
     void setFilter(const bool &on);
 
-    void setFilterValues(const double &capacitance, const double &impedance, const double &inductivity, bool resetInitialValues = true);
+    void setFilterValues(const double &capacitance, const double &impedance, const double &inductivity);
 
     void setFilterValues(const double &capacitance, const double &impedance, const double &inductivity,
                          const double &x1, const double &x2, const double &y1, const double &y2);

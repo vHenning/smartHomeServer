@@ -28,3 +28,36 @@ void LEDController::setDim(const double &dim)
     memcpy(buffer, &msg, sizeof(DimMessage));
     socket.send_to(boost::asio::buffer(buffer, sizeof(DimMessage)), partner);
 }
+
+void LEDController::setValues(const char &red, const char &green, const char &blue, const bool &raw /*= false*/)
+{
+    ValueMessage msg(red, green, blue, raw);
+    unsigned char buffer[sizeof(ValueMessage)];
+    memcpy(buffer, &msg, sizeof(ValueMessage));
+    socket.send_to(boost::asio::buffer(buffer, sizeof(ValueMessage)), partner);
+}
+
+void LEDController::setFilter(const bool &on)
+{
+    FilterMessage msg(on);
+    unsigned char buffer[sizeof(FilterMessage)];
+    memcpy(buffer, &msg, sizeof(FilterMessage));
+    socket.send_to(boost::asio::buffer(buffer, sizeof(FilterMessage)), partner);
+}
+
+void LEDController::setFilterValues(const double &capacitance, const double &impedance, const double &inductivity)
+{
+    FilterValueMessage msg(capacitance, impedance, inductivity);
+    unsigned char buffer[sizeof(FilterValueMessage)];
+    memcpy(buffer, &msg, sizeof(FilterValueMessage));
+    socket.send_to(boost::asio::buffer(buffer, sizeof(FilterValueMessage)), partner);
+}
+
+void LEDController::setFilterValues(const double &capacitance, const double &impedance, const double &inductivity,
+                     const double &x1, const double &x2, const double &y1, const double &y2)
+{
+    FilterValueBufferMessage msg(capacitance, impedance, inductivity, x1, x2, y1, y2);
+    unsigned char buffer[sizeof(FilterValueBufferMessage)];
+    memcpy(buffer, &msg, sizeof(FilterValueBufferMessage));
+    socket.send_to(boost::asio::buffer(buffer, sizeof(FilterValueBufferMessage)), partner);
+}
