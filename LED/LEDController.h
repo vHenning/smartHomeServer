@@ -27,7 +27,12 @@ public:
 
     struct ColorMessage
     {
-        ColorMessage(const uint16_t &red, const uint16_t &green, const uint16_t &blue) : id(0x100), red(red), green(green), blue(blue) {}
+        ColorMessage(const uint16_t &red, const uint16_t &green, const uint16_t &blue) :
+            id(0x100)
+          , red(red)
+          , green(green)
+          , blue(blue)
+        {}
 
         uint32_t id;
         uint16_t red;
@@ -37,7 +42,10 @@ public:
 
     struct DimMessage
     {
-        DimMessage(const float &dim) : id(0x101), dim(dim) {}
+        DimMessage(const float &dim) :
+            id(0x101)
+          , dim(dim)
+        {}
 
         uint32_t id;
         float dim;
