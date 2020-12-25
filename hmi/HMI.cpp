@@ -1,5 +1,4 @@
 #include "HMI.h"
-#include "../userModes/UserModeManager.h"
 
 #include <linux/input.h>
 #include <fcntl.h>
