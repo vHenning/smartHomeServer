@@ -1,8 +1,8 @@
-#include "DVDMode.h"
+#include "modes/DVDMode.h"
 #include "ModeManager.h"
 #include "UserMode.h"
-#include "OffMode.h"
-#include "PCMode.h"
+#include "modes/OffMode.h"
+#include "modes/PCMode.h"
 
 ModeManager::ModeManager()
 {

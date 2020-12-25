@@ -11,8 +11,8 @@ build/hmi/HMI.o \
 build/video/VideoPlayer.o \
 build/userModes/ModeManager.o \
 build/userModes/UserMode.o \
-build/userModes/OffMode.o \
-build/userModes/PCMode.o \
+build/userModes/modes/OffMode.o \
+build/userModes/modes/PCMode.o \
 build/LED/LEDController.o \
 build/CEC/CECControl.o
 
@@ -49,6 +49,10 @@ build/video/%.o: video/%.cpp
 
 build/userModes/%.o: userModes/%.cpp
 	mkdir -p build/userModes/
+	$(CXX) -c $(FLAGS) $< -o $@
+
+build/userModes/modes/%.o: userModes/modes/%.cpp
+	mkdir -p build/userModes/modes/
 	$(CXX) -c $(FLAGS) $< -o $@
 
 build/LED/%.o: LED/%.cpp

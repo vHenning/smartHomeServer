@@ -1,9 +1,9 @@
 #ifndef DVD_MODE_H
 #define DVD_MODE_H
 
-#include "../benq/BenQServer.h"
-#include "../onkyo/OnkyoServer.h"
-#include "../video/VideoPlayer.h"
+#include "../../benq/BenQServer.h"
+#include "../../onkyo/OnkyoServer.h"
+#include "../../video/VideoPlayer.h"
 
 class DVDMode
 {

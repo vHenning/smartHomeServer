@@ -1,7 +1,7 @@
 #ifndef PCMODE_H
 #define PCMODE_H
 
-#include "UserMode.h"
+#include "../UserMode.h"
 
 class PCMode : public UserMode
 {

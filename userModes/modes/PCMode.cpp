@@ -1,6 +1,6 @@
 #include "PCMode.h"
 
-#include "../onkyo/OnkyoServer.h"
+#include "../../onkyo/OnkyoServer.h"
 
 PCMode::PCMode() : UserMode(ePCMode)
 {
