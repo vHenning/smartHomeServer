@@ -4,7 +4,8 @@
 
 int main (int, char**)
 {
-    LEDController controller("192.168.0.116");
+    // LEDController controller("192.168.0.116");
+    LEDController controller("192.168.0.115");
 
     int red = 0x00;
     int green = 0x00;
