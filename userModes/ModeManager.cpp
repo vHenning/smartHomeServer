@@ -1,12 +1,11 @@
-#include "modes/DVDMode.h"
 #include "ModeManager.h"
 #include "UserMode.h"
+#include "modes/DVDMode.h"
 #include "modes/OffMode.h"
 #include "modes/PCMode.h"
 
 ModeManager::ModeManager()
 {
-    // add off mode
 }
 
 void ModeManager::addMode(UserMode::Mode toAdd)
