@@ -13,26 +13,73 @@ void ModeManager::addMode(UserMode::Mode toAdd)
 {
     UserMode* mode = getUserMode(toAdd);
 
-    // Check if mode already exists
-    // TODO if mode already exists, push it in front in its same dominance group: remove and add again, then check if it is first
+    // TODO use mode->getDevices only once
 
     if (isActive(mode->getType()))
     {
-        fprintf(stderr, "User Mode is already active\n");
-    }
-
-    std::vector<UserMode::Device> newDevices = mode->getDevices();
-
-    for (size_t i = 0; i < newDevices.size(); ++i)
-    {
-        devices[newDevices[i]].insert(std::pair<int, UserMode*>(mode->getDominance(newDevices[i]), mode));
-
-        std::multimap<int, UserMode*>::const_iterator last = devices[newDevices[i]].end();
-        --last;
-
-        if (last->second->getType() == mode->getType())
+        std::vector<UserMode::Device> modeDevices = mode->getDevices();
+        for (size_t i = 0; i < modeDevices.size(); ++i)
         {
-            mode->turnOn(newDevices[i]);
+            // if first mode and added mode have same dominance
+            ModeMap::iterator first = devices[modeDevices[i]].end();
+            --first;
+            // If mode is not already first (active)
+            if (first->second->getType() != mode->getType())
+            {
+                if (first->first == mode->getDominance(modeDevices[i]))
+                {
+                    first->second->turnOff(modeDevices[i]);
+                }
+
+                for (ModeMap::iterator it = devices[modeDevices[i]].begin(); it != devices[modeDevices[i]].end(); ++it)
+                {
+                    if (it->second->getType() == mode->getType())
+                    {
+                        UserMode* currentMode = it->second;
+                        devices[modeDevices[i]].erase(it);
+                        devices[modeDevices[i]].insert(std::make_pair(mode->getDominance(modeDevices[i]), currentMode));
+
+                        first = devices[modeDevices[i]].end();
+                        --first;
+                        if (first->second->getType() == mode->getType())
+                        {
+                            first->second->turnOn(modeDevices[i]);
+                        }
+                        break;
+                    }
+                }
+            }
+        }
+    }
+    else
+    {
+        std::vector<UserMode::Device> newDevices = mode->getDevices();
+
+        for (size_t i = 0; i < newDevices.size(); ++i)
+        {
+            UserMode* previousFirstMode = 0;
+            if (devices[newDevices[i]].size())
+            {
+                ModeMap::iterator it = devices[newDevices[i]].end();
+                --it;
+                previousFirstMode = it->second;
+            }
+
+            devices[newDevices[i]].insert(std::pair<int, UserMode*>(mode->getDominance(newDevices[i]), mode));
+            // "last" is really the first mode (with highest dominance)
+            std::multimap<int, UserMode*>::const_iterator last = devices[newDevices[i]].end();
+            --last;
+
+            // If the initially first mode is not first anymore, turn it off
+            if (previousFirstMode && previousFirstMode->getType() != last->second->getType())
+            {
+                previousFirstMode->turnOff(newDevices[i]);
+            }
+            // If the first mode is the added mode, turn it on
+            if (last->second->getType() == mode->getType())
+            {
+                mode->turnOn(newDevices[i]);
+            }
         }
     }
 
