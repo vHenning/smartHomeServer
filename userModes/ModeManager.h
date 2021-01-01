@@ -21,10 +21,10 @@ private:
 
     UserMode* getUserMode(UserMode::Mode type);
 
-    typedef std::map<UserMode::Device, std::multimap<int, UserMode*> > DeviceMap;
+    // The most dominant mode is situated at the end of each ModeMap.
+    typedef std::multimap<int, UserMode*> ModeMap;
+    typedef std::map<UserMode::Device, ModeMap> DeviceMap;
     DeviceMap devices;
-
-
 };
 
 #endif // MODEMANAGER_H
