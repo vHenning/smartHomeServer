@@ -82,19 +82,7 @@ void ModeManager::addMode(UserMode::Mode toAdd)
         }
     }
 
-#ifdef DEBUG
-
-    fprintf(stderr, "================\n");
-    for (DeviceMap::const_iterator it = devices.begin(); it != devices.end(); ++it)
-    {
-        fprintf(stderr, "Device: %s:\n", UserMode::enumToString(it->first).c_str());
-        for (std::multimap<int, UserMode*>::const_iterator innerIt = it->second.begin(); innerIt != it->second.end(); ++innerIt)
-        {
-            fprintf(stderr, "%d: %s\n", innerIt->first, UserMode::enumToString(innerIt->second->getType()).c_str());
-        }
-    }
-
-#endif
+    printDeviceMap();
 }
 
 void ModeManager::removeMode(UserMode::Mode toRemove)
@@ -146,20 +134,7 @@ void ModeManager::removeMode(UserMode::Mode toRemove)
         }
     }
 
-#ifdef DEBUG
-
-    fprintf(stderr, "================\n");
-    for (DeviceMap::const_iterator it = devices.begin(); it != devices.end(); ++it)
-    {
-        fprintf(stderr, "Device: %s:\n", UserMode::enumToString(it->first).c_str());
-        for (std::multimap<int, UserMode*>::const_iterator innerIt = it->second.begin(); innerIt != it->second.end(); ++innerIt)
-        {
-            fprintf(stderr, "%d: %s\n", innerIt->first, UserMode::enumToString(innerIt->second->getType()).c_str());
-        }
-    }
-
-#endif
-
+    printDeviceMap();
 }
 
 bool ModeManager::isActive(UserMode::Mode type) const
@@ -189,6 +164,23 @@ UserMode* ModeManager::getUserMode(UserMode::Mode type)
         break;
     }
     return 0;
+}
+
+void ModeManager::printDeviceMap()
+{
+#ifdef DEBUG
+
+    for (DeviceMap::const_iterator it = devices.begin(); it != devices.end(); ++it)
+    {
+        fprintf(stderr, "Device: %s:\n", UserMode::enumToString(it->first).c_str());
+        for (std::multimap<int, UserMode*>::const_iterator innerIt = it->second.begin(); innerIt != it->second.end(); ++innerIt)
+        {
+            fprintf(stderr, "%d: %s\n", innerIt->first, UserMode::enumToString(innerIt->second->getType()).c_str());
+        }
+    }
+    fprintf(stderr, "================\n");
+
+#endif
 }
 
 std::string ModeManager::enumToString(const UserMode::Device &device)

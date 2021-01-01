@@ -21,6 +21,11 @@ private:
 
     UserMode* getUserMode(UserMode::Mode type);
 
+    /**
+     * Prints the UserMode queue for every device
+     */
+    void printDeviceMap();
+
     // The most dominant mode is situated at the end of each ModeMap.
     typedef std::multimap<int, UserMode*> ModeMap;
     typedef std::map<UserMode::Device, ModeMap> DeviceMap;
