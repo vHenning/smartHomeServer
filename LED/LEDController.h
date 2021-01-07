@@ -1,4 +1,4 @@
-#ifndef LED_CONTROLER_H
+#ifndef LED_CONTROLLER_H
 #define LED_CONTROLLER_H
 
 #include <stdint.h>
