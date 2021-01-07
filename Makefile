@@ -14,6 +14,7 @@ build/userModes/UserMode.o \
 build/userModes/modes/OffMode.o \
 build/userModes/modes/PCMode.o \
 build/LED/LEDController.o \
+build/LED/LEDManager.o \
 build/CEC/CECControl.o
 
 FLAGS = -std=c++11 -Wall -Wextra -I /usr/local/include/boost/boost_1_73_0 -MD
