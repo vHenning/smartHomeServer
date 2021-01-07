@@ -12,6 +12,7 @@ public:
         eHMI
         , eStereo
         , eBeamer
+        , eLEDBedroom
     };
 
     enum Mode
@@ -19,6 +20,7 @@ public:
         eOffMode
         , ePCMode
         , eDVDMode
+        , eIlluminateBedroomMode
     };
 
     static std::string enumToString(const Device &device);

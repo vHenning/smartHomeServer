@@ -3,6 +3,8 @@
 #include "modes/DVDMode.h"
 #include "modes/OffMode.h"
 #include "modes/PCMode.h"
+#include "modes/IlluminateMode.h"
+#include "../LED/LEDManager.h"
 
 ModeManager::ModeManager()
 {
@@ -161,6 +163,9 @@ UserMode* ModeManager::getUserMode(UserMode::Mode type)
         break;
     case UserMode::ePCMode:
         return new PCMode();
+        break;
+    case UserMode::eIlluminateBedroomMode:
+        return new IlluminateMode(LEDManager::getInstance()->getUnit(LEDManager::eBedroom), UserMode::eIlluminateBedroomMode);
         break;
     }
     return 0;
