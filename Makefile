@@ -6,6 +6,7 @@ build/sound/MaryClient.o \
 build/onkyo/OnkyoServer.o \
 build/onkyo/OnkyoManager.o \
 build/benq/BenQServer.o \
+build/sensors/MotionSensor.o \
 build/sensors/PCSensor.o \
 build/hmi/HMI.o \
 build/video/VideoPlayer.o \
