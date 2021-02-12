@@ -25,6 +25,15 @@ public:
      */
     void addMotionHandler(const uint32_t &unitID, std::function<void (void)> handler);
 
+    /**
+     * Add a function that shall be called if motion stops at given sensor unit
+     * @param unitID - The sensor unit that shall trigger function execution if motion stops
+     * @param handler - The function that shall be called if motion is detected
+     * @param delaySeconds - Number of seconds function execution shall be delayed after motion has stopped.
+     *                       Minimum is 10 seconds. If motion is detected again before the delay time has passed, the handler is not called.
+     */
+    void addMotionStopHandler(const uint32_t &unitID, std::function<void (void)> handler, unsigned int delaySeconds = 10);
+
 private:
 
     /**
@@ -59,6 +68,31 @@ private:
          * All handler functions that are called if motion is detected
          */
         std::vector<std::function<void (void)>> motionHandlerFunctions;
+
+        struct OffHandler
+        {
+            OffHandler(const int &delay, const std::function<void (void)> &handler, boost::asio::io_context* context)
+                : delayTime(delay)
+                , handlerFunction(handler)
+                , timer(*context)
+            {
+                timer.expires_after(boost::asio::chrono::seconds(delay));
+            }
+
+            int delayTime;
+            std::function<void (void)> handlerFunction;
+            boost::asio::steady_timer timer;
+
+            void handleTimeout(const boost::system::error_code &ec)
+            {
+                if (!ec)
+                {
+                    handlerFunction();
+                }
+            }
+        };
+
+        std::vector<OffHandler> offHandlers;
 
         /**
          * Timer that expires after a given amount of time, sets motionWasDetected false when expired.

@@ -42,6 +42,26 @@ void MotionSensor::addMotionHandler(const uint32_t &unitID, std::function<void (
     it->second.motionHandlerFunctions.push_back(handler);
 }
 
+void MotionSensor::addMotionStopHandler(const uint32_t &unitID, std::function<void ()> handler, unsigned int delaySeconds)
+{
+    UnitMap::iterator it = units.find(unitID);
+
+    if (it == units.end())
+    {
+        units.insert(std::make_pair(unitID, Unit(&context)));
+        it = units.find(unitID);
+    }
+
+    if (delaySeconds < 10)
+    {
+        delaySeconds = 10;
+    }
+
+    // TODO: make stopMotionHandlers addable if off timer is already running:
+
+    it->second.offHandlers.push_back(Unit::OffHandler(delaySeconds, handler, &context));
+}
+
 void MotionSensor::runReceive()
 {
     bool running = true;
@@ -76,6 +96,13 @@ void MotionSensor::runReceive()
             timer->cancel();
             timer->expires_after(boost::asio::chrono::seconds(11));
             timer->async_wait(std::bind(&MotionSensor::Unit::handleTimerUp, &it->second, std::placeholders::_1));
+
+            for (size_t i = 0; i < it->second.offHandlers.size(); ++i)
+            {
+                it->second.offHandlers[i].timer.cancel();
+                it->second.offHandlers[i].timer.expires_after(boost::asio::chrono::seconds(it->second.offHandlers[i].delayTime));
+                it->second.offHandlers[i].timer.async_wait(std::bind(&Unit::OffHandler::handleTimeout, &it->second.offHandlers[i], std::placeholders::_1));
+            }
 
 #ifdef DEBUG
             fprintf(stderr, "Motion Detected\n");
