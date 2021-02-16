@@ -8,7 +8,8 @@ LEDManager* LEDManager::getInstance()
 
 LEDManager::LEDManager()
 {
-    units[eBedroom] = new LEDController("192.168.0.116");
+    units[eBedroom] = new LEDController("192.168.0.117", 1);
+//    units[eBedroomReading] = new LEDController("192.168.0.117", 1);
 }
 
 LEDController* LEDManager::getUnit(const Unit &unit)

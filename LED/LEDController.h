@@ -9,7 +9,7 @@
 class LEDController
 {
 public:
-    LEDController(const std::string &ip, const int& port = 8002);
+    LEDController(const std::string &ip, const uint8_t &channel = 0, const int& port = 8002);
 
     void setColor(const char &red, const char &green, const char &blue);
 
@@ -25,36 +25,41 @@ public:
                          const double &x1, const double &x2, const double &y1, const double &y2);
 
 
-    struct ColorMessage
+    struct __attribute__((__packed__)) ColorMessage
     {
-        ColorMessage(const uint16_t &red, const uint16_t &green, const uint16_t &blue) :
+        ColorMessage(const uint8_t &channel, const uint16_t &red, const uint16_t &green, const uint16_t &blue) :
             id(0x100)
+          , channel(channel)
           , red(red)
           , green(green)
           , blue(blue)
         {}
 
         uint32_t id;
+        uint8_t channel;
         uint16_t red;
         uint16_t green;
         uint16_t blue;
     };
 
-    struct DimMessage
+    struct __attribute__((__packed__)) DimMessage
     {
-        DimMessage(const float &dim) :
+        DimMessage(const uint8_t &channel, const float &dim) :
             id(0x101)
+          , channel(channel)
           , dim(dim)
         {}
 
         uint32_t id;
+        uint8_t channel;
         float dim;
     };
 
-    struct ValueMessage
+    struct __attribute__((__packed__)) ValueMessage
     {
-        ValueMessage(const uint16_t &red, const uint16_t &green, const uint16_t &blue, const bool &raw = false) :
+        ValueMessage(const uint8_t &channel, const uint16_t &red, const uint16_t &green, const uint16_t &blue, const bool &raw = false) :
             id(0x102)
+          , channel(channel)
           , red(red)
           , green(green)
           , blue(blue)
@@ -63,6 +68,7 @@ public:
         }
 
         uint32_t id;
+        uint8_t channel;
         uint16_t red;
         uint16_t green;
         uint16_t blue;
@@ -71,26 +77,30 @@ public:
 
     struct FilterMessage
     {
-        FilterMessage(const bool &filter) :
+        FilterMessage(const uint8_t &channel, const bool &filter) :
             id(0x103)
+          , channel(channel)
         {
             this->filter = filter ? 0x01 : 0x00;
         }
 
         uint32_t id;
+        uint8_t channel;
         uint8_t filter;
     };
 
     struct FilterValueMessage
     {
-        FilterValueMessage(const float &capacitance, const float &impedance, const float &inductivity) :
+        FilterValueMessage(const uint8_t &channel, const float &capacitance, const float &impedance, const float &inductivity) :
             id(0x104)
+          , channel(channel)
           , capacitance(capacitance)
           , impedance(impedance)
           , inductivity(inductivity)
         {}
 
         uint32_t id;
+        uint8_t channel;
         float capacitance;
         float impedance;
         float inductivity;
@@ -98,9 +108,10 @@ public:
 
     struct FilterValueBufferMessage
     {
-        FilterValueBufferMessage(const float &capacitance, const float &impedance, const float &inductivity,
+        FilterValueBufferMessage(const uint8_t &channel, const float &capacitance, const float &impedance, const float &inductivity,
                                  const float &x1, const float &x2, const float &y1, const float &y2) :
             id(0x105)
+          , channel(channel)
           , capacitance(capacitance)
           , impedance(impedance)
           , inductivity(inductivity)
@@ -111,6 +122,7 @@ public:
         {}
 
         uint32_t id;
+        uint8_t channel;
         float capacitance;
         float impedance;
         float inductivity;
@@ -121,6 +133,8 @@ public:
     };
 
 private:
+    uint8_t channel;
+
     boost::asio::io_service service;
     boost::asio::ip::udp::socket socket;
     boost::asio::ip::udp::endpoint partner;
