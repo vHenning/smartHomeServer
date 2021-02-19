@@ -127,7 +127,7 @@ void ModeManager::removeMode(UserMode::Mode toRemove)
             }
         }
 
-        if (wasFirst)
+        if (wasFirst && devices[oldDevices[i]].size())
         {
             std::multimap<int, UserMode*>::iterator last = devices[oldDevices[i]].end();
             --last;
