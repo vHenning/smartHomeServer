@@ -44,7 +44,7 @@ public:
 
     struct __attribute__((__packed__)) DimMessage
     {
-        DimMessage(const uint8_t &channel, const float &dim) :
+        DimMessage(const uint8_t &channel, const double &dim) :
             id(0x101)
           , channel(channel)
           , dim(dim)
@@ -52,7 +52,7 @@ public:
 
         uint32_t id;
         uint8_t channel;
-        float dim;
+        double dim;
     };
 
     struct __attribute__((__packed__)) ValueMessage
