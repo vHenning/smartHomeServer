@@ -9,6 +9,7 @@ public:
     enum Unit
     {
         eBedroom = 0
+        , eBedroomReading = 1
         , eUnitCount
     };
 
