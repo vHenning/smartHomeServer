@@ -75,7 +75,7 @@ public:
         uint8_t raw;
     };
 
-    struct FilterMessage
+    struct __attribute__((__packed__)) FilterMessage
     {
         FilterMessage(const uint8_t &channel, const bool &filter) :
             id(0x103)
