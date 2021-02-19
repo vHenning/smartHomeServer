@@ -67,26 +67,26 @@ void LEDController::setFilter(const bool &on)
     socket.send_to(boost::asio::buffer(buffer, sizeof(FilterMessage)), partner);
 }
 
-void LEDController::setFilterValues(const double &capacitance, const double &impedance, const double &inductivity)
+void LEDController::setFilterValues(const double &capacitance, const double &impedance)
 {
 #ifdef DEBUG
-    fprintf(stderr, "LED Set filter values cap/imp/ind %f %f %f\n", capacitance, impedance, inductivity);
+    fprintf(stderr, "LED Set filter values cap/imp/ind %f %f\n", capacitance, impedance);
 #endif
 
-    FilterValueMessage msg(channel, capacitance, impedance, inductivity);
+    FilterValueMessage msg(channel, capacitance, impedance);
     unsigned char buffer[sizeof(FilterValueMessage)];
     memcpy(buffer, &msg, sizeof(FilterValueMessage));
     socket.send_to(boost::asio::buffer(buffer, sizeof(FilterValueMessage)), partner);
 }
 
-void LEDController::setFilterValues(const double &capacitance, const double &impedance, const double &inductivity,
-                     const double &x1, const double &x2, const double &y1, const double &y2)
+void LEDController::setFilterValues(const double &capacitance, const double &inductivity,
+                     const double &x1, const double &y1)
 {
 #ifdef DEBUG
-    fprintf(stderr, "LED Set filter values cap/imp/ind x1/x2/y1/y2 %f %f %f %f %f %f %f\n", capacitance, impedance, inductivity, x1, x2, y1, y2);
+    fprintf(stderr, "LED Set filter values cap/imp x1/y1 %f %f %f %f\n", capacitance, impedance, x1, y1);
 #endif
 
-    FilterValueBufferMessage msg(channel, capacitance, impedance, inductivity, x1, x2, y1, y2);
+    FilterValueBufferMessage msg(channel, capacitance, inductivity, x1, y1);
     unsigned char buffer[sizeof(FilterValueBufferMessage)];
     memcpy(buffer, &msg, sizeof(FilterValueBufferMessage));
     socket.send_to(boost::asio::buffer(buffer, sizeof(FilterValueBufferMessage)), partner);

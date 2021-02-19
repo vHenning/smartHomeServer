@@ -19,10 +19,10 @@ public:
 
     void setFilter(const bool &on);
 
-    void setFilterValues(const double &capacitance, const double &impedance, const double &inductivity);
+    void setFilterValues(const double &capacitance, const double &impedance);
 
-    void setFilterValues(const double &capacitance, const double &impedance, const double &inductivity,
-                         const double &x1, const double &x2, const double &y1, const double &y2);
+    void setFilterValues(const double &capacitance, const double &inductivity,
+                         const double &x1, const double &y1);
 
 
     struct __attribute__((__packed__)) ColorMessage
@@ -89,47 +89,39 @@ public:
         uint8_t filter;
     };
 
-    struct FilterValueMessage
+    struct __attribute__((__packed__)) FilterValueMessage
     {
-        FilterValueMessage(const uint8_t &channel, const float &capacitance, const float &impedance, const float &inductivity) :
+        FilterValueMessage(const uint8_t &channel, const double &capacitance, const double &impedance) :
             id(0x104)
           , channel(channel)
           , capacitance(capacitance)
           , impedance(impedance)
-          , inductivity(inductivity)
         {}
 
         uint32_t id;
         uint8_t channel;
-        float capacitance;
-        float impedance;
-        float inductivity;
+        double capacitance;
+        double impedance;
     };
 
-    struct FilterValueBufferMessage
+    struct __attribute__((__packed__)) FilterValueBufferMessage
     {
-        FilterValueBufferMessage(const uint8_t &channel, const float &capacitance, const float &impedance, const float &inductivity,
-                                 const float &x1, const float &x2, const float &y1, const float &y2) :
+        FilterValueBufferMessage(const uint8_t &channel, const double &capacitance, const double &impedance,
+                                 const float &x1, const float &y1) :
             id(0x105)
           , channel(channel)
           , capacitance(capacitance)
           , impedance(impedance)
-          , inductivity(inductivity)
           , x1(x1)
-          , x2(x2)
           , y1(y1)
-          , y2(y2)
         {}
 
         uint32_t id;
         uint8_t channel;
-        float capacitance;
-        float impedance;
-        float inductivity;
-        float x1;
-        float x2;
-        float y1;
-        float y2;
+        double capacitance;
+        double impedance;
+        double x1;
+        double y1;
     };
 
 private:
