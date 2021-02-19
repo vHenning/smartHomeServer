@@ -44,7 +44,12 @@ void LEDController::setValues(const char &red, const char &green, const char &bl
     fprintf(stderr, "LED Set values rgb %c %c %c %s\n", red, green, blue, raw ? "raw" : "not raw");
 #endif
 
-    ValueMessage msg(red, green, blue, raw);
+    // Shift arguments because ValueMessage takes 16 bit values
+    uint16_t redShift = red << 8;
+    uint16_t greenShift = green << 8;
+    uint16_t blueShift = blue << 8;
+
+    ValueMessage msg(channel, redShift, greenShift, blueShift, raw);
     unsigned char buffer[sizeof(ValueMessage)];
     memcpy(buffer, &msg, sizeof(ValueMessage));
     socket.send_to(boost::asio::buffer(buffer, sizeof(ValueMessage)), partner);
