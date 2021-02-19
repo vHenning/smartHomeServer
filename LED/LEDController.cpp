@@ -5,9 +5,32 @@
 
 LEDController::LEDController(const std::string &ip, const uint8_t &channel, const int &port) :
     channel(channel)
-  , socket(service, boost::asio::ip::udp::endpoint(boost::asio::ip::udp::v4(), port))
-  , partner(boost::asio::ip::make_address_v4(ip), port)
+  , comDevice(0)
+  , service(new boost::asio::io_service())
+  , socket(new boost::asio::ip::udp::socket(*service, boost::asio::ip::udp::endpoint(boost::asio::ip::udp::v4(), port)))
+  , partner(new boost::asio::ip::udp::endpoint(boost::asio::ip::make_address_v4(ip), port))
 {
+}
+
+LEDController::LEDController(const uint8_t &channel, LEDController *communicator) :
+    channel(channel)
+  , comDevice(communicator)
+  , service(0)
+  , socket(0)
+  , partner(0)
+{
+}
+
+void LEDController::sendBuffer(const unsigned char *buffer, const size_t &size)
+{
+    if (comDevice == 0)
+    {
+        socket->send_to(boost::asio::buffer(buffer, size), *partner);
+    }
+    else
+    {
+        comDevice->socket->send_to(boost::asio::buffer(buffer, size), *comDevice->partner);
+    }
 }
 
 void LEDController::setColor(const char &red, const char &green, const char &blue)
@@ -23,7 +46,7 @@ void LEDController::setColor(const char &red, const char &green, const char &blu
     fprintf(stderr, "Color %02X %02X %02X\n", msg.red, msg.green, msg.blue);
     unsigned char buffer[sizeof(ColorMessage)];
     memcpy(buffer, &msg, sizeof(ColorMessage));
-    socket.send_to(boost::asio::buffer(buffer, sizeof(ColorMessage)), partner);
+    sendBuffer(buffer, sizeof(ColorMessage));
 }
 
 void LEDController::setDim(const double &dim)
@@ -35,7 +58,7 @@ void LEDController::setDim(const double &dim)
     DimMessage msg(channel, dim);
     unsigned char buffer[sizeof(DimMessage)];
     memcpy(buffer, &msg, sizeof(DimMessage));
-    socket.send_to(boost::asio::buffer(buffer, sizeof(DimMessage)), partner);
+    sendBuffer(buffer, sizeof(DimMessage));
 }
 
 void LEDController::setValues(const char &red, const char &green, const char &blue, const bool &raw /*= false*/)
@@ -52,7 +75,7 @@ void LEDController::setValues(const char &red, const char &green, const char &bl
     ValueMessage msg(channel, redShift, greenShift, blueShift, raw);
     unsigned char buffer[sizeof(ValueMessage)];
     memcpy(buffer, &msg, sizeof(ValueMessage));
-    socket.send_to(boost::asio::buffer(buffer, sizeof(ValueMessage)), partner);
+    sendBuffer(buffer, sizeof(ValueMessage));
 }
 
 void LEDController::setFilter(const bool &on)
@@ -64,7 +87,7 @@ void LEDController::setFilter(const bool &on)
     FilterMessage msg(channel, on);
     unsigned char buffer[sizeof(FilterMessage)];
     memcpy(buffer, &msg, sizeof(FilterMessage));
-    socket.send_to(boost::asio::buffer(buffer, sizeof(FilterMessage)), partner);
+    sendBuffer(buffer, sizeof(FilterMessage));
 }
 
 void LEDController::setFilterValues(const double &capacitance, const double &impedance)
@@ -76,7 +99,7 @@ void LEDController::setFilterValues(const double &capacitance, const double &imp
     FilterValueMessage msg(channel, capacitance, impedance);
     unsigned char buffer[sizeof(FilterValueMessage)];
     memcpy(buffer, &msg, sizeof(FilterValueMessage));
-    socket.send_to(boost::asio::buffer(buffer, sizeof(FilterValueMessage)), partner);
+    sendBuffer(buffer, sizeof(FilterValueMessage));
 }
 
 void LEDController::setFilterValues(const double &capacitance, const double &inductivity,
@@ -89,5 +112,5 @@ void LEDController::setFilterValues(const double &capacitance, const double &ind
     FilterValueBufferMessage msg(channel, capacitance, inductivity, x1, y1);
     unsigned char buffer[sizeof(FilterValueBufferMessage)];
     memcpy(buffer, &msg, sizeof(FilterValueBufferMessage));
-    socket.send_to(boost::asio::buffer(buffer, sizeof(FilterValueBufferMessage)), partner);
+    sendBuffer(buffer, sizeof(FilterValueBufferMessage));
 }

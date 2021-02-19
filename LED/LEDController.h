@@ -11,6 +11,8 @@ class LEDController
 public:
     LEDController(const std::string &ip, const uint8_t &channel = 0, const int& port = 8002);
 
+    LEDController(const uint8_t &channel, LEDController* communicator);
+
     void setColor(const char &red, const char &green, const char &blue);
 
     void setDim(const double &dim);
@@ -24,6 +26,8 @@ public:
     void setFilterValues(const double &capacitance, const double &inductivity,
                          const double &x1, const double &y1);
 
+private:
+    void sendBuffer(const unsigned char *buffer, const size_t &size);
 
     struct __attribute__((__packed__)) ColorMessage
     {
@@ -124,12 +128,13 @@ public:
         double y1;
     };
 
-private:
     uint8_t channel;
 
-    boost::asio::io_service service;
-    boost::asio::ip::udp::socket socket;
-    boost::asio::ip::udp::endpoint partner;
+    LEDController* comDevice;
+
+    boost::asio::io_service* service;
+    boost::asio::ip::udp::socket* socket;
+    boost::asio::ip::udp::endpoint* partner;
 };
 
 #endif
