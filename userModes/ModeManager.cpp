@@ -167,6 +167,9 @@ UserMode* ModeManager::getUserMode(UserMode::Mode type)
     case UserMode::eIlluminateBedroomMode:
         return new IlluminateMode(LEDManager::getInstance()->getUnit(LEDManager::eBedroom), UserMode::eIlluminateBedroomMode);
         break;
+    case UserMode::eReadingMode:
+        return new IlluminateMode(LEDManager::getInstance()->getUnit(LEDManager::eBedroomReading), UserMode::eReadingMode);
+        break;
     }
     return 0;
 }

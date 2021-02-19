@@ -13,6 +13,7 @@ public:
         , eStereo
         , eBeamer
         , eLEDBedroom
+        , eLEDBedroomReading
     };
 
     enum Mode
@@ -21,6 +22,7 @@ public:
         , ePCMode
         , eDVDMode
         , eIlluminateBedroomMode
+        , eReadingMode
     };
 
     static std::string enumToString(const Device &device);
@@ -34,6 +36,7 @@ public:
 
 protected:
     UserMode(Mode type);
+    // TODO: Add functions for turning on and off each device (instead of turnOn() turnOff())
     std::map<Device, int> devices;
 
 private:
