@@ -114,6 +114,10 @@ void ModeManager::removeMode(UserMode::Mode toRemove)
         if (last->second->getType() == mode->getType())
         {
             fprintf(stderr, "Calling turn off\n");
+            if (last->second == 0)
+            {
+                fprintf(stderr, "Last was 0\n");
+            }
             last->second->turnOff(oldDevices[i]);
             wasFirst = true;
         }
