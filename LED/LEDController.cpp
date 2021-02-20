@@ -102,14 +102,14 @@ void LEDController::setFilterValues(const double &capacitance, const double &imp
     sendBuffer(buffer, sizeof(FilterValueMessage));
 }
 
-void LEDController::setFilterValues(const double &capacitance, const double &inductivity,
+void LEDController::setFilterValues(const double &capacitance, const double &impedance,
                      const double &x1, const double &y1)
 {
 #ifdef DEBUG
     fprintf(stderr, "LED Set filter values cap/imp x1/y1 %f %f %f %f\n", capacitance, impedance, x1, y1);
 #endif
 
-    FilterValueBufferMessage msg(channel, capacitance, inductivity, x1, y1);
+    FilterValueBufferMessage msg(channel, capacitance, impedance, x1, y1);
     unsigned char buffer[sizeof(FilterValueBufferMessage)];
     memcpy(buffer, &msg, sizeof(FilterValueBufferMessage));
     sendBuffer(buffer, sizeof(FilterValueBufferMessage));

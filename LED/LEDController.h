@@ -23,7 +23,7 @@ public:
 
     void setFilterValues(const double &capacitance, const double &impedance);
 
-    void setFilterValues(const double &capacitance, const double &inductivity,
+    void setFilterValues(const double &capacitance, const double &impedance,
                          const double &x1, const double &y1);
 
 private:
