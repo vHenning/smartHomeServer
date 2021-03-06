@@ -22,12 +22,16 @@ void IlluminateMode::turnOn(const Device &device)
     case eLEDBedroom:
         if (getType() == eIlluminateBedroomMode)
         {
+            led->setFilter(true);
+            led->setColor(253, 150, 50);
             led->setDim(1.0);
         }
         break;
     case eLEDBedroomReading:
         if (getType() == eReadingMode)
         {
+            led->setFilter(true);
+            led->setColor(253, 150, 50);
             led->setDim(1.0);
         }
         break;
