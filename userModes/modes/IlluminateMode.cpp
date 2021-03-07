@@ -23,7 +23,7 @@ void IlluminateMode::turnOn(const Device &device)
         if (getType() == eIlluminateBedroomMode)
         {
             led->setFilter(true);
-            led->setColor(253, 150, 50);
+            led->setColor(255, 120, 25);
             led->setDim(1.0);
         }
         break;
