@@ -7,6 +7,8 @@
 
 #include "userModes/ModeManager.h"
 
+#include "hmi/HMI.h"
+
 void init(PCSensor* pc, MotionSensor* motion, ModeManager* manager)
 {
     // Add PC handler
@@ -27,6 +29,8 @@ int main (int, char**)
     MotionSensor motionSensor;
 
     init(&pcSensor, &motionSensor, &manager);
+
+    HMI::getInstance();
 
     while (true)
     {
