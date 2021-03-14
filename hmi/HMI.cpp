@@ -5,6 +5,8 @@
 #include <unistd.h>
 #include <stdio.h>
 
+#include "../userModes/ModeManager.h"
+
 HMI::HMI() :
     running(true)
   , watchArrow(false)
@@ -151,6 +153,16 @@ void HMI::watchArrowPressed(int key, bool pressed)
 //        UserModeManager::getInstance()->setMode(UserModeManager::eOff);
         break;
     case KEY_BACK:
+        break;
+    case KEY_DOWN:
+        if (ModeManager::getInstance()->isActive(UserMode::eReadingMode))
+        {
+            ModeManager::getInstance()->removeMode(UserMode::eReadingMode);
+        }
+        else
+        {
+            ModeManager::getInstance()->addMode(UserMode::eReadingMode);
+        }
         break;
     default:
         success = false;
