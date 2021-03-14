@@ -18,6 +18,18 @@ HMI::HMI() :
         return;
     }
 
+    // Detach remote from xinput
+    int detachResult = system("xinput disable \"123 COM SmartControl Mouse\"");
+    detachResult |= system("xinput disable \"123 COM Smart Control Consumer Control\"");
+    detachResult |= system("xinput disable \"123 COM Smart Control System Control\"");
+    detachResult |= system("xinput disable \"pointer:123 COM Smart Control\"");
+    detachResult |= system("xinput disable \"123 COM Smart Control Consumer Control\"");
+
+    if (detachResult != 0)
+    {
+        fprintf(stderr, "Error detaching remote from xinput\n");
+    }
+
     keyThread = std::thread(&HMI::runKeyThread, this, keys);
     specialThread = std::thread(&HMI::runSpecialThread, this, specials);
 }
