@@ -10,6 +10,9 @@ IlluminateMode::IlluminateMode(LEDController *led, const Mode &type)
     case eIlluminateBedroomMode:
         devices[eLEDBedroom] = 10;
         break;
+    case eReadingMode:
+        devices[eLEDBedroomReading] = 20;
+        break;
     default:
         break;
     }
