@@ -7,7 +7,8 @@
 class ModeManager
 {
 public:
-    ModeManager();
+
+    static ModeManager* getInstance();
 
     void addMode(UserMode::Mode toAdd);
     void removeMode(UserMode::Mode toRemove);
@@ -18,6 +19,7 @@ public:
     static std::string enumToString(const UserMode::Device &device);
 
 private:
+    ModeManager();
 
     UserMode* getUserMode(UserMode::Mode type);
 

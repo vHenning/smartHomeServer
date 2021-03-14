@@ -6,6 +6,12 @@
 #include "modes/IlluminateMode.h"
 #include "../LED/LEDManager.h"
 
+ModeManager* ModeManager::getInstance()
+{
+    static ModeManager instance;
+    return &instance;
+}
+
 ModeManager::ModeManager()
 {
 }

@@ -20,7 +20,7 @@ void init(PCSensor* pc, MotionSensor* motion, ModeManager* manager)
 
 int main (int, char**)
 {
-    ModeManager manager;
+    ModeManager manager = *ModeManager::getInstance();
     manager.addMode(UserMode::eOffMode);
 
     PCSensor pcSensor;
