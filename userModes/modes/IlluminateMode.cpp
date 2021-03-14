@@ -34,8 +34,9 @@ void IlluminateMode::turnOn(const Device &device)
         if (getType() == eReadingMode)
         {
             led->setFilter(true);
-            led->setColor(253, 150, 50);
-            led->setDim(1.0);
+            // Color emulates a spectrum of 3000 Kelvin
+            led->setColor(255, 180, 107);
+            led->setDim(0.75);
         }
         break;
     default:
