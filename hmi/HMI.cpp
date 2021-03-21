@@ -12,7 +12,7 @@ HMI::HMI() :
   , watchArrow(false)
 {
     int keys = open("/dev/input/by-id/usb-123_COM_Smart_Control-if02-event-kbd", O_RDONLY);
-    int specials = open("/dev/input/by-id/usb-123_COM_Smart_Control-if03-event-mouse", O_RDONLY);
+    int specials = open("/dev/input/by-id/usb-123_COM_Smart_Control-event-if03", O_RDONLY);
 
     if (keys < 0 || specials < 0)
     {
