@@ -13,7 +13,6 @@ public:
     IlluminateMode(LEDController* led, const Mode &type);
 
     virtual void turnOn(const Device &device);
-    virtual void turnOff(const Device &device);
 
 private:
 

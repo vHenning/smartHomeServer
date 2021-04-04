@@ -29,7 +29,6 @@ public:
     static std::string enumToString(const Mode &mode);
 
     virtual void turnOn(const Device &device) = 0;
-    virtual void turnOff(const Device &device) = 0;
     std::vector<Device> getDevices() const;
     int getDominance(Device device) const;
     Mode getType() const;

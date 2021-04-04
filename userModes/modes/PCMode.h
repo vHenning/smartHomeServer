@@ -9,7 +9,6 @@ public:
     PCMode();
 
     virtual void turnOn(const Device &device);
-    virtual void turnOff(const Device &device);
 };
 
 #endif // PCMODE_H

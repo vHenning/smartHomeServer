@@ -33,11 +33,6 @@ void ModeManager::addMode(UserMode::Mode toAdd)
             // If mode is not already first (active)
             if (first->second->getType() != mode->getType())
             {
-                if (first->first == mode->getDominance(modeDevices[i]))
-                {
-                    first->second->turnOff(modeDevices[i]);
-                }
-
                 for (ModeMap::iterator it = devices[modeDevices[i]].begin(); it != devices[modeDevices[i]].end(); ++it)
                 {
                     if (it->second->getType() == mode->getType())
@@ -64,24 +59,11 @@ void ModeManager::addMode(UserMode::Mode toAdd)
 
         for (size_t i = 0; i < newDevices.size(); ++i)
         {
-            UserMode* previousFirstMode = 0;
-            if (devices[newDevices[i]].size())
-            {
-                ModeMap::iterator it = devices[newDevices[i]].end();
-                --it;
-                previousFirstMode = it->second;
-            }
-
             devices[newDevices[i]].insert(std::pair<int, UserMode*>(mode->getDominance(newDevices[i]), mode));
             // "last" is really the first mode (with highest dominance)
             std::multimap<int, UserMode*>::const_iterator last = devices[newDevices[i]].end();
             --last;
 
-            // If the initially first mode is not first anymore, turn it off
-            if (previousFirstMode && previousFirstMode->getType() != last->second->getType())
-            {
-                previousFirstMode->turnOff(newDevices[i]);
-            }
             // If the first mode is the added mode, turn it on
             if (last->second->getType() == mode->getType())
             {
@@ -124,7 +106,6 @@ void ModeManager::removeMode(UserMode::Mode toRemove)
             {
                 fprintf(stderr, "Last was 0\n");
             }
-            last->second->turnOff(oldDevices[i]);
             wasFirst = true;
         }
 

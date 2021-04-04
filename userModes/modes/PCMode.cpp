@@ -33,12 +33,6 @@ void PCMode::turnOn(const Device &device)
 #endif
 }
 
-void PCMode::turnOff(const Device &device)
-{
-    fprintf(stderr, "Turn off PC mode for device %s\n", enumToString(device).c_str());
-#ifdef DEBUG
-#endif
-}
 
 //PCMode::PCMode()
 //{

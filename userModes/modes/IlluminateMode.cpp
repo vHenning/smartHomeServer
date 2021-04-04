@@ -43,25 +43,3 @@ void IlluminateMode::turnOn(const Device &device)
         break;
     }
 }
-
-void IlluminateMode::turnOff(const Device& device)
-{
-    // TODO: Add off mode and dont turn off here
-    switch (device)
-    {
-    case eLEDBedroom:
-        if (getType() == eIlluminateBedroomMode)
-        {
-            led->setDim(0.0);
-        }
-        break;
-    case eLEDBedroomReading:
-        if (getType() == eReadingMode)
-        {
-            led->setDim(0.0);
-        }
-        break;
-    default:
-        break;
-    }
-}
