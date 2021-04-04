@@ -141,6 +141,18 @@ bool ModeManager::isActive(UserMode::Mode type) const
     return false;
 }
 
+UserMode::Mode ModeManager::getActiveMode(const UserMode::Device &device)
+{
+    if (devices[device].size() == 0)
+    {
+        return UserMode::eOffMode;
+    }
+
+    ModeMap::const_iterator it = devices[device].end();
+    it--;
+    return it->second->getType();
+}
+
 UserMode* ModeManager::getUserMode(UserMode::Mode type)
 {
     switch (type)

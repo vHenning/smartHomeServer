@@ -14,6 +14,7 @@ public:
     void removeMode(UserMode::Mode toRemove);
 
     bool isActive(UserMode::Mode type) const;
+    UserMode::Mode getActiveMode(const UserMode::Device &device);
 
 private:
     ModeManager();
