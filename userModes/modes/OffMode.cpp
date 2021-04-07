@@ -7,52 +7,43 @@
 OffMode::OffMode() : UserMode(eOffMode)
 {
     int lowest = std::numeric_limits<int>::lowest();
-    devices[eStereo] = lowest;
-    devices[eLEDBedroom] = lowest;
-    devices[eLEDBedroomReading] = lowest;
-    devices[eHMI] = lowest;
-    devices[eBeamer] = lowest;
+    devices[eStereo] = std::make_pair(lowest, std::bind(&OffMode::turnOffStereo, this));
+    devices[eLEDBedroom] = std::make_pair(lowest, std::bind(&OffMode::turnOffLEDBedroom, this));
+    devices[eLEDBedroomReading] = std::make_pair(lowest, std::bind(&OffMode::turnOffLEDBedroomReading, this));
+    devices[eHMI] = std::make_pair(lowest, std::bind(&OffMode::turnOffHMI, this));
+    devices[eBeamer] = std::make_pair(lowest, std::bind(&OffMode::turnOffBeamer, this));
 }
 
-void OffMode::turnOn(const Device &device)
+void OffMode::turnOffBeamer()
 {
-#ifndef DRYRUN
-    switch (device)
-    {
-    case eStereo:
-    {
-        OnkyoServer* server = OnkyoServer::getInstance();
-        server->setSource(OnkyoServer::eNet);
-        server->setVolume(20);
-        server->setPower(OnkyoServer::eStandby);
-        break;
-    }
-    case eLEDBedroom:
-    {
-        LEDController* controller = LEDManager::getInstance()->getUnit(LEDManager::eBedroom);
-        controller->setFilter(true);
-        controller->setDim(0.0);
-        break;
-    }
-    case eLEDBedroomReading:
-    {
-        LEDController* controller = LEDManager::getInstance()->getUnit(LEDManager::eBedroomReading);
-        controller->setFilter(true);
-        controller->setDim(0.0);
-        break;
-    }
-    case eHMI:
-    {
-        HMI* hmi = HMI::getInstance();
-        hmi->clearListeners();
-        break;
-    }
-    case eBeamer:
-    {
-        BenQServer* server = BenQServer::getInstance();
-        server->setPowerState(BenQServer::ePowerStandby);
-        break;
-    }
-    }
-#endif // DRYRUN
+    BenQServer* server = BenQServer::getInstance();
+    server->setPowerState(BenQServer::ePowerStandby);
+}
+
+void OffMode::turnOffHMI()
+{
+    HMI* hmi = HMI::getInstance();
+    hmi->clearListeners();
+}
+
+void OffMode::turnOffLEDBedroom()
+{
+    LEDController* controller = LEDManager::getInstance()->getUnit(LEDManager::eBedroom);
+    controller->setFilter(true);
+    controller->setDim(0.0);
+}
+
+void OffMode::turnOffLEDBedroomReading()
+{
+    LEDController* controller = LEDManager::getInstance()->getUnit(LEDManager::eBedroomReading);
+    controller->setFilter(true);
+    controller->setDim(0.0);
+}
+
+void OffMode::turnOffStereo()
+{
+    OnkyoServer* server = OnkyoServer::getInstance();
+    server->setSource(OnkyoServer::eNet);
+    server->setVolume(20);
+    server->setPower(OnkyoServer::eStandby);
 }
