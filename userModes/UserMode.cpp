@@ -10,9 +10,12 @@ std::string UserMode::enumToString(const Device &device)
         return "Beamer";
     case eHMI:
         return "HMI";
-    default:
-        return "Unknown";
+    case eLEDBedroom:
+        return "Background LED Bedroom";
+    case eLEDBedroomReading:
+        return "Reading LED Bedroom";
     }
+    return "Unknown";
 }
 
 std::string UserMode::enumToString(const Mode &mode)
@@ -25,9 +28,12 @@ std::string UserMode::enumToString(const Mode &mode)
         return "PC";
     case eDVDMode:
         return "DVD";
-    default:
-        return "Unknown";
+    case eIlluminateBedroomMode:
+        return "Background Illumination Bedroom";
+    case eReadingMode:
+        return "Reading Bedroom";
     }
+    return "Unknown";
 }
 
 void UserMode::turnOn(const Device &device)

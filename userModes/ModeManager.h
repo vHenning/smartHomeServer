@@ -15,9 +15,6 @@ public:
 
     bool isActive(UserMode::Mode type) const;
 
-    static std::string enumToString(const UserMode::Mode &type);
-    static std::string enumToString(const UserMode::Device &device);
-
 private:
     ModeManager();
 
