@@ -26,7 +26,7 @@ void CECControl::commandReceived(void*, const CEC::cec_command* cmd)
 
 void CECControl::onKeyPress(void*, const CEC::cec_keypress* msg)
 {
-    fprintf(stderr, "Key\n");
+    fprintf(stderr, "Key %d\n", static_cast<int>(msg->keycode));
 }
 
 CECControl::CECControl()

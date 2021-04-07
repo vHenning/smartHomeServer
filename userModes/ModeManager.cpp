@@ -180,6 +180,9 @@ UserMode* ModeManager::getUserMode(UserMode::Mode type)
     case UserMode::eReadingMode:
         return new IlluminateMode(LEDManager::getInstance()->getUnit(LEDManager::eBedroomReading), UserMode::eReadingMode);
         break;
+    case UserMode::eDVDMode:
+        return 0;
+        break;
     }
     return 0;
 }
