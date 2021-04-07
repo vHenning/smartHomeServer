@@ -8,38 +8,27 @@ IlluminateMode::IlluminateMode(LEDController *led, const Mode &type)
     switch (type)
     {
     case eIlluminateBedroomMode:
-        devices[eLEDBedroom] = 10;
+        devices[eLEDBedroom] = std::make_pair(10, std::bind(&IlluminateMode::turnOnBackgroundLight, this));
         break;
     case eReadingMode:
-        devices[eLEDBedroomReading] = 20;
+        devices[eLEDBedroomReading] = std::make_pair(20, std::bind(&IlluminateMode::turnOnReadingLight, this));
         break;
     default:
         break;
     }
 }
 
-void IlluminateMode::turnOn(const Device &device)
+void IlluminateMode::turnOnBackgroundLight()
 {
-    switch (device)
-    {
-    case eLEDBedroom:
-        if (getType() == eIlluminateBedroomMode)
-        {
-            led->setFilter(true);
-            led->setColor(255, 120, 25);
-            led->setDim(1.0);
-        }
-        break;
-    case eLEDBedroomReading:
-        if (getType() == eReadingMode)
-        {
-            led->setFilter(true);
-            // Color emulates a spectrum of 3000 Kelvin
-            led->setColor(255, 180, 107);
-            led->setDim(0.75);
-        }
-        break;
-    default:
-        break;
-    }
+    led->setFilter(true);
+    led->setColor(255, 120, 25);
+    led->setDim(1.0);
+}
+
+void IlluminateMode::turnOnReadingLight()
+{
+    led->setFilter(true);
+    // Color emulates a spectrum of 3000 Kelvin
+    led->setColor(255, 180, 107);
+    led->setDim(0.75);
 }
