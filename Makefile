@@ -9,6 +9,7 @@ build/benq/BenQServer.o \
 build/sensors/MotionSensor.o \
 build/sensors/PCSensor.o \
 build/hmi/HMI.o \
+build/video/KodiController.o \
 build/video/VideoPlayer.o \
 build/userModes/ModeManager.o \
 build/userModes/UserMode.o \
