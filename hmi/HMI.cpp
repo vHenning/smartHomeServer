@@ -136,9 +136,15 @@ void HMI::setListener(const int &key, const std::function<void (void)> listener)
     listeners[key] = listener;
 }
 
+void HMI::setBroadcastListener(const std::function<void (int)>& listener)
+{
+    broadcastListeners.push_back(listener);
+}
+
 void HMI::clearListeners()
 {
     listeners.clear();
+    broadcastListeners.clear();
 }
 
 void HMI::callListeners(const int &key)
@@ -147,6 +153,11 @@ void HMI::callListeners(const int &key)
     if (it != listeners.end())
     {
         it->second();
+    }
+
+    for (size_t i = 0; i < broadcastListeners.size(); ++i)
+    {
+        broadcastListeners[i](key);
     }
 }
 
