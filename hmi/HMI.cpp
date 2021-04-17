@@ -213,10 +213,14 @@ void HMI::watchArrowPressed(int key, bool pressed)
     switch (key)
     {
     case KEY_UP:
-//        UserModeManager::getInstance()->setMode(UserModeManager::eDVD);
+        ModeManager::getInstance()->addMode(UserMode::eKodiMode);
         break;
     case KEY_HOMEPAGE:
-//        UserModeManager::getInstance()->setMode(UserModeManager::eOff);
+        // Remove all modes that are reactivated if their button is pressed
+        if (ModeManager::getInstance()->isActive(UserMode::eKodiMode))
+        {
+            ModeManager::getInstance()->removeMode(UserMode::eKodiMode);
+        }
         break;
     case KEY_BACK:
         break;
