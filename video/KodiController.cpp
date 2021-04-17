@@ -55,22 +55,20 @@ void KodiController::sendKey(const int &key)
         case KEY_DOWN:
             keyName = "down";
             break;
-        case KEY_ENTER:
+        case BTN_MOUSE:
             keyName = "enter";
             break;
         case KEY_BACK:
-            keyName = "return";
-            break;
         case KEY_ESC:
             keyName = "escape";
             break;
         case KEY_PLAYPAUSE:
             keyName = "play_pause";
             break;
-        case KEY_FORWARD:
+        case KEY_NEXTSONG:
             keyName = "fastforward";
             break;
-        case KEY_REWIND:
+        case KEY_PREVIOUSSONG:
             keyName = "rewind";
             break;
         }
