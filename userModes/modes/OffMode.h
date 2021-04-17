@@ -15,6 +15,7 @@ private:
     void turnOffLEDBedroomReading();
     void turnOffHMI();
     void turnOffBeamer();
+    void turnOffKodi();
 };
 
 #endif // OFFMODE_H

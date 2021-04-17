@@ -14,6 +14,8 @@ std::string UserMode::enumToString(const Device &device)
         return "Background LED Bedroom";
     case eLEDBedroomReading:
         return "Reading LED Bedroom";
+    case eKodi:
+        return "Kodi";
     }
     return "Unknown";
 }
@@ -32,6 +34,8 @@ std::string UserMode::enumToString(const Mode &mode)
         return "Background Illumination Bedroom";
     case eReadingMode:
         return "Reading Bedroom";
+    case eKodiMode:
+        return "Kodi";
     }
     return "Unknown";
 }

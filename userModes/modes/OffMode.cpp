@@ -3,6 +3,7 @@
 #include "../../LED/LEDManager.h"
 #include "../../hmi/HMI.h"
 #include "../../benq/BenQServer.h"
+#include "../../video/KodiController.h"
 
 OffMode::OffMode() : UserMode(eOffMode)
 {
@@ -12,6 +13,7 @@ OffMode::OffMode() : UserMode(eOffMode)
     devices[eLEDBedroomReading] = std::make_pair(lowest, std::bind(&OffMode::turnOffLEDBedroomReading, this));
     devices[eHMI] = std::make_pair(lowest, std::bind(&OffMode::turnOffHMI, this));
     devices[eBeamer] = std::make_pair(lowest, std::bind(&OffMode::turnOffBeamer, this));
+    devices[eKodi] = std::make_pair(lowest, std::bind(&OffMode::turnOffKodi, this));
 }
 
 void OffMode::turnOffBeamer()
@@ -46,4 +48,9 @@ void OffMode::turnOffStereo()
     server->setSource(OnkyoServer::eNet);
     server->setVolume(20);
     server->setPower(OnkyoServer::eStandby);
+}
+
+void OffMode::turnOffKodi()
+{
+    KodiController::getInstance()->quit();
 }

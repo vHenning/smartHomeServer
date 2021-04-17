@@ -3,6 +3,7 @@
 #include "modes/DVDMode.h"
 #include "modes/OffMode.h"
 #include "modes/PCMode.h"
+#include "modes/KodiMode.h"
 #include "modes/IlluminateMode.h"
 #include "../LED/LEDManager.h"
 
@@ -159,6 +160,8 @@ UserMode* ModeManager::getUserMode(UserMode::Mode type)
     case UserMode::eDVDMode:
         return 0;
         break;
+    case UserMode::eKodiMode:
+        return new KodiMode();
     }
     return 0;
 }

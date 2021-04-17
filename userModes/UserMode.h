@@ -15,6 +15,7 @@ public:
         , eBeamer
         , eLEDBedroom
         , eLEDBedroomReading
+        , eKodi
     };
 
     enum Mode
@@ -24,6 +25,7 @@ public:
         , eDVDMode
         , eIlluminateBedroomMode
         , eReadingMode
+        , eKodiMode
     };
 
     static std::string enumToString(const Device &device);
