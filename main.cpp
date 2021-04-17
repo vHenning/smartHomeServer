@@ -22,13 +22,13 @@ void init(PCSensor* pc, MotionSensor* motion, ModeManager* manager)
 
 int main (int, char**)
 {
-    ModeManager manager = *ModeManager::getInstance();
-    manager.addMode(UserMode::eOffMode);
+    ModeManager* manager = ModeManager::getInstance();
+    manager->addMode(UserMode::eOffMode);
 
     PCSensor pcSensor;
     MotionSensor motionSensor;
 
-    init(&pcSensor, &motionSensor, &manager);
+    init(&pcSensor, &motionSensor, manager);
 
     HMI::getInstance();
 
