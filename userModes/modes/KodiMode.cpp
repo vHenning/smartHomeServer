@@ -30,5 +30,8 @@ void KodiMode::turnOnBeamer()
     beamer->setPowerState(BenQServer::ePowerOn);
     beamer->setSource(BenQServer::eVGA);
 
-    // TODO set resolution of beamer output?
+    // Set output resolution to 1080p
+    system("xrandr --newmode \"1920x1080\" 173.00 1920 2048 2248 2576 1080 1083 1088 1120 -hsync +vsync");
+    system("xrandr --addmode VGA-0 1920x1080");
+    system("xrandr --output VGA-0 --mode 1920x1080");
 }
