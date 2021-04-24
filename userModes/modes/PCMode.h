@@ -8,8 +8,8 @@ class PCMode : public UserMode
 public:
     PCMode();
 
-    virtual void turnOn(const Device &device);
-    virtual void turnOff(const Device &device);
+private:
+    void turnOnStereo();
 };
 
 #endif // PCMODE_H

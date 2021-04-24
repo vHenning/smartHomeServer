@@ -4,19 +4,17 @@
 #include "../UserMode.h"
 #include "../../onkyo/OnkyoServer.h"
 
-// TODO: OffMode becomes onkyo music mode triggered by OnkyoServer receiving mode change to net or phono or bluetooth
-
 class OffMode : public UserMode
 {
 public:
     OffMode();
-    virtual void turnOn(const Device &device);
-    virtual void turnOff(const Device &device);
 
-protected:
-    int previousVolume;
-    OnkyoServer::Source previousSource;
-    OnkyoServer::PowerState previousPower;
+private:
+    void turnOffStereo();
+    void turnOffLEDBedroom();
+    void turnOffLEDBedroomReading();
+    void turnOffHMI();
+    void turnOffBeamer();
 };
 
 #endif // OFFMODE_H

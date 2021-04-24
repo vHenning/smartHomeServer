@@ -12,10 +12,10 @@ class IlluminateMode : public UserMode
 public:
     IlluminateMode(LEDController* led, const Mode &type);
 
-    virtual void turnOn(const Device &device);
-    virtual void turnOff(const Device &device);
-
 private:
+
+    void turnOnReadingLight();
+    void turnOnBackgroundLight();
 
     LEDController* led;
 };

@@ -10,9 +10,12 @@ std::string UserMode::enumToString(const Device &device)
         return "Beamer";
     case eHMI:
         return "HMI";
-    default:
-        return "Unknown";
+    case eLEDBedroom:
+        return "Background LED Bedroom";
+    case eLEDBedroomReading:
+        return "Reading LED Bedroom";
     }
+    return "Unknown";
 }
 
 std::string UserMode::enumToString(const Mode &mode)
@@ -25,34 +28,38 @@ std::string UserMode::enumToString(const Mode &mode)
         return "PC";
     case eDVDMode:
         return "DVD";
-    default:
-        return "Unknown";
+    case eIlluminateBedroomMode:
+        return "Background Illumination Bedroom";
+    case eReadingMode:
+        return "Reading Bedroom";
     }
+    return "Unknown";
+}
+
+void UserMode::turnOn(const Device &device)
+{
+#ifdef DEBUG
+    fprintf(stderr, "Turn on %s mode on device %s\n", enumToString(getType()).c_str(), enumToString(device).c_str());
+#endif
+
+#ifndef DRYRUN
+    DeviceMap::iterator it = devices.find(device);
+    if (it != devices.end())
+    {
+        it->second.second();
+    }
+#endif
 }
 
 UserMode::UserMode(Mode type) : type(type)
 {
 }
 
-//void UserMode::turnOn(const Device &device)
-//{
-//#ifdef DEBUG
-//    fprintf(stderr, "Turn on generic UserMode\n");
-//#endif
-//}
-
-//void UserMode::turnOff(const Device &device)
-//{
-//#ifdef DEBUG
-//    fprintf(stderr, "Turn off generic UserMode\n");
-//#endif
-//}
-
 std::vector<UserMode::Device> UserMode::getDevices() const
 {
     std::vector<Device> sendback;
 
-    for (std::map<Device, int>::const_iterator it = devices.begin(); it != devices.end(); it++)
+    for (DeviceMap::const_iterator it = devices.begin(); it != devices.end(); it++)
     {
         sendback.push_back(it->first);
     }
@@ -62,10 +69,10 @@ std::vector<UserMode::Device> UserMode::getDevices() const
 
 int UserMode::getDominance(Device device) const
 {
-    std::map<UserMode::Device, int>::const_iterator it = devices.find(device);
+    DeviceMap::const_iterator it = devices.find(device);
     if (it != devices.end())
     {
-        return it->second;
+        return it->second.first;
     }
     fprintf(stderr, "Device not found.\n");
     return 0;
