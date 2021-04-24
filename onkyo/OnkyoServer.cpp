@@ -248,6 +248,8 @@ OnkyoServer::Source OnkyoServer::setSource(Source value)
         send("SLI2B\n", 6);
         break;
     case eBDDVD:
+        send("SLI10\n", 6);
+        break;
     case eSourceInvalid:
         fprintf(stderr, "Warning: Source cannot be set invalid.\n");
         break;
