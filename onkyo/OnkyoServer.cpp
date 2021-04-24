@@ -137,6 +137,44 @@ int OnkyoServer::setVolume(int value)
     return volume;
 }
 
+int OnkyoServer::volumeUp()
+{
+    int previousVolume = volume;
+
+    std::string command = "MVLUP";
+    send(command.c_str(), command.length());
+
+    for (int i = 0; i < 10000; ++i)
+    {
+        if (previousVolume >= 100 || volume == previousVolume + 1)
+        {
+            break;
+        }
+        usleep(100);
+    }
+
+    return volume;
+}
+
+int OnkyoServer::volumeDown()
+{
+    int previousVolume = volume;
+
+    std::string command = "MVLDOWN";
+    send(command.c_str(), command.length());
+
+    for (int i = 0; i < 10000; ++i)
+    {
+        if (previousVolume <= 0 || volume == previousVolume - 1)
+        {
+            break;
+        }
+        usleep(100);
+    }
+
+    return volume;
+}
+
 OnkyoServer::PowerState OnkyoServer::getPower()
 {
     if (powerState == ePowerInvalid)

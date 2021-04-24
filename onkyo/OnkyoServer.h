@@ -38,6 +38,9 @@ public:
     int getVolume();
     int setVolume(int value);
 
+    int volumeUp();
+    int volumeDown();
+
 #ifdef DEBUG
     void sendManual(std::string command);
 #endif
