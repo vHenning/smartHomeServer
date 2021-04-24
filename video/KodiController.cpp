@@ -39,43 +39,44 @@ void KodiController::sendKey(const int &key)
 {
     if (running)
     {
-        std::string keyName = "";
+        std::string actionName = "";
 
         switch (key)
         {
         case KEY_LEFT:
-            keyName = "left";
+            actionName = "Left";
             break;
         case KEY_RIGHT:
-            keyName = "right";
+            actionName = "Right";
             break;
         case KEY_UP:
-            keyName = "up";
+            actionName = "Up";
             break;
         case KEY_DOWN:
-            keyName = "down";
+            actionName = "Down";
             break;
+        case KEY_ENTER:
         case BTN_MOUSE:
-            keyName = "enter";
+            actionName = "Select";
             break;
         case KEY_BACK:
         case KEY_ESC:
-            keyName = "escape";
+            actionName = "Back";
             break;
         case KEY_PLAYPAUSE:
-            keyName = "play_pause";
+            actionName = "PlayPause";
             break;
         case KEY_NEXTSONG:
-            keyName = "fastforward";
+            actionName = "FastForward";
             break;
         case KEY_PREVIOUSSONG:
-            keyName = "rewind";
+            actionName = "Rewind";
             break;
         }
 
-        if (!keyName.empty())
+        if (!actionName.empty())
         {
-            std::string command = "kodi-send --button=\"" + keyName + "\"";
+            std::string command = "kodi-send --action=\"Action(" + actionName + ")\"";
             system(command.c_str());
         }
     }
