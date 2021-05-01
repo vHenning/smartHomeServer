@@ -4,6 +4,8 @@
 #include <fcntl.h>
 #include <unistd.h>
 #include <stdio.h>
+#include <fstream>
+#include <ios>
 
 #include "../userModes/ModeManager.h"
 
@@ -11,29 +13,106 @@ HMI::HMI() :
     running(true)
   , watchArrow(false)
 {
-    int keys = open("/dev/input/by-id/usb-123_COM_Smart_Control-if02-event-kbd", O_RDONLY);
-    int specials = open("/dev/input/by-id/usb-123_COM_Smart_Control-event-if03", O_RDONLY);
+    // Find input streams
 
-    if (keys < 0 || specials < 0)
+    // Input streams are saved in /proc/bus/input/devices
+    std::ifstream devices;
+    devices.open("/proc/bus/input/devices");
+
+    bool searchForHandler = false;
+
+    std::string line = "";
+    if (devices.is_open())
     {
-        fprintf(stderr, "Opening input streams failed.\n");
-        return;
+        while (true)
+        {
+            std::getline(devices, line);
+
+            // If end of file
+            std::ios_base::iostate state = devices.rdstate();
+            if ((state & std::ifstream::eofbit) != 0)
+            {
+                break;
+            }
+
+            if (line.find("Name=\"123") != std::string::npos)
+            {
+                searchForHandler = true;
+            }
+            else if (line.find("Name=") != std::string::npos)
+            {
+                searchForHandler = false;
+            }
+
+            if (searchForHandler && line.find("Handlers=") != std::string::npos)
+            {
+                size_t position = line.find("event");
+                if (position != std::string::npos)
+                {
+                    // Position of the number (e.g. 23 for event23)
+                    position += 5;
+
+                    Stream* stream = new Stream();
+
+                    size_t spacePosition = line.find_first_of(" ", position);
+                    stream->eventNumber = line.substr(position, spacePosition - position);
+
+                    streams.push_back(stream);
+                }
+            }
+        }
+
+        devices.close();
+    }
+    else
+    {
+        fprintf(stderr, "Could not open /proc/bus/input/devices!\n");
     }
 
-    // Detach remote from xinput
-    int detachResult = system("xinput disable \"123 COM SmartControl Mouse\"");
-    detachResult |= system("xinput disable \"123 COM Smart Control Consumer Control\"");
-    detachResult |= system("xinput disable \"123 COM Smart Control System Control\"");
-    detachResult |= system("xinput disable \"pointer:123 COM Smart Control\"");
-    detachResult |= system("xinput disable \"123 COM Smart Control Consumer Control\"");
-
-    if (detachResult != 0)
+    // Open input streams
+    for (size_t i = 0; i < streams.size(); ++i)
     {
-        fprintf(stderr, "Error detaching remote from xinput\n");
+        std::string filename = "/dev/input/event" + streams[i]->eventNumber;
+        int file = open(filename.c_str(), O_RDONLY);
+        if (file < 0)
+        {
+            fprintf(stderr, "Error opening %s\n", streams[i]->eventNumber.c_str());
+            continue;
+        }
+
+        // Start thread for this input
+        streams[i]->thread = std::thread(&HMI::runThread, this, file);
     }
 
-    keyThread = std::thread(&HMI::runKeyThread, this, keys);
-    specialThread = std::thread(&HMI::runSpecialThread, this, specials);
+    // Disconnect HMI from xinput
+
+    FILE* output = popen("xinput", "r");
+    const size_t BUFFER_SIZE = 256;
+    char xinputLine[BUFFER_SIZE];
+
+    while (fgets(xinputLine, BUFFER_SIZE, output) != 0)
+    {
+        std::string stringLine(xinputLine);
+        if (stringLine.find("123") != std::string::npos)
+        {
+            size_t idPosition = stringLine.find("id=");
+            idPosition += 3;
+
+            size_t tabPosition   = stringLine.find("\t", idPosition);
+            size_t spacePosition = stringLine.find(" ", idPosition);
+
+            std::string id = stringLine.substr(idPosition, std::min(tabPosition, spacePosition) - idPosition);
+
+            // Disable devices from xinput
+            std::string disableCommand = "xinput disable " + id;
+            int success = system(disableCommand.c_str());
+            if (success != 0)
+            {
+                fprintf(stderr, "Error detatching input %s from xinput\n", id.c_str());
+            }
+        }
+    }
+    pclose(output);
 }
 
 HMI* HMI::getInstance()
@@ -44,8 +123,12 @@ HMI* HMI::getInstance()
 
 HMI::~HMI()
 {
-    keyThread.join();
-    specialThread.join();
+    running = false;
+
+    for (size_t i = 0; i < streams.size(); ++i)
+    {
+        streams[i]->thread.join();
+    }
 }
 
 void HMI::setListener(const int &key, const std::function<void (void)> listener)
@@ -67,38 +150,7 @@ void HMI::callListeners(const int &key)
     }
 }
 
-void HMI::runSpecialThread(int device)
-{
-    input_event event;
-
-    while (running)
-    {
-        read(device, &event, sizeof(event));
-
-        if (event.type == EV_REL || !event.code || event.code == 4)
-        {
-            continue;
-        }
-
-        if (event.code == KEY_HOMEPAGE && !watchArrow)
-        {
-            homePressed(event.value);
-        }
-        else if (watchArrow)
-        {
-            watchArrowPressed(event.code, event.value);
-        }
-        else if (event.value)
-        {
-            callListeners(event.code);
-        }
-
-
-//        fprintf(stderr, "Special: Value %d | code %d | type %d\n", event.value, event.code, event.type);
-    }
-}
-
-void HMI::runKeyThread(int device)
+void HMI::runThread(int device)
 {
     input_event event;
 
@@ -107,8 +159,14 @@ void HMI::runKeyThread(int device)
         read(device, &event, sizeof(event));
 
         // Filter irrelevant keys
-        if (event.type == EV_REL || !event.code || (event.value != 1 && event.value != 0))
+        if (event.type == EV_REL || !event.code || event.code == 4)
         {
+            continue;
+        }
+
+        if (event.code == KEY_HOMEPAGE && !watchArrow)
+        {
+            homePressed(event.value);
             continue;
         }
 
@@ -116,13 +174,10 @@ void HMI::runKeyThread(int device)
         {
             watchArrowPressed(event.code, event.value);
         }
-
         else if (event.value)
         {
             callListeners(event.code);
         }
-
-//        fprintf(stderr, "Key: Value %d | code %d | type %d\n", event.value, event.code, event.type);
     }
 }
 

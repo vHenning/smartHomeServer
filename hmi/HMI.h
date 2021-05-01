@@ -1,6 +1,7 @@
 #ifndef HMI_H
 #define HMI_H
 
+#include <vector>
 #include <thread>
 #include <unordered_map>
 #include <functional>
@@ -30,11 +31,16 @@ private:
 
     std::unordered_map<int, std::function<void (void)>> listeners;
 
-    void runKeyThread(int device);
-    void runSpecialThread(int device);
+    void runThread(int device);
 
-    std::thread keyThread;
-    std::thread specialThread;
+    struct Stream
+    {
+        Stream() : eventNumber("") {}
+        std::string eventNumber;
+        std::thread thread;
+    };
+
+    std::vector<Stream*> streams;
 };
 
 #endif // HMI_H
