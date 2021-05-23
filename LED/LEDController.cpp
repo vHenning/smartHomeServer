@@ -3,34 +3,16 @@
 #include <boost/asio/ip/udp.hpp>
 #include <boost/asio.hpp>
 
-LEDController::LEDController(const std::string &ip, const uint8_t &channel, const int &port) :
+LEDController::LEDController(const std::string &ip, const uint8_t &channel, std::function<void(boost::asio::ip::udp::endpoint, const unsigned char*, size_t)> commFunction) :
     channel(channel)
-  , comDevice(0)
-  , service(new boost::asio::io_service())
-  , socket(new boost::asio::ip::udp::socket(*service, boost::asio::ip::udp::endpoint(boost::asio::ip::udp::v4(), port)))
-  , partner(new boost::asio::ip::udp::endpoint(boost::asio::ip::make_address_v4(ip), port))
-{
-}
-
-LEDController::LEDController(const uint8_t &channel, LEDController *communicator) :
-    channel(channel)
-  , comDevice(communicator)
-  , service(0)
-  , socket(0)
-  , partner(0)
+  , sendFunction(commFunction)
+  , partner(new boost::asio::ip::udp::endpoint(boost::asio::ip::make_address_v4(ip), 8002))
 {
 }
 
 void LEDController::sendBuffer(const unsigned char *buffer, const size_t &size)
 {
-    if (comDevice == 0)
-    {
-        socket->send_to(boost::asio::buffer(buffer, size), *partner);
-    }
-    else
-    {
-        comDevice->socket->send_to(boost::asio::buffer(buffer, size), *comDevice->partner);
-    }
+    sendFunction(*partner, buffer, size);
 }
 
 void LEDController::setColor(const char &red, const char &green, const char &blue)

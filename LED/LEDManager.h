@@ -10,6 +10,8 @@ public:
     {
         eBedroom = 0
         , eBedroomReading = 1
+        , eKitchenRGB = 2
+        , eKitchenW = 3
         , eUnitCount
     };
 
@@ -21,6 +23,12 @@ private:
     LEDManager();
 
     LEDController* units[eUnitCount];
+
+    void sendBuffer(const boost::asio::ip::udp::endpoint &destination, const unsigned char *buffer, const size_t &size);
+
+    std::mutex socketMutex;
+    boost::asio::io_service service;
+    boost::asio::ip::udp::socket socket;
 };
 
 #endif // LEDMANAGER_H

@@ -9,9 +9,7 @@
 class LEDController
 {
 public:
-    LEDController(const std::string &ip, const uint8_t &channel = 0, const int& port = 8002);
-
-    LEDController(const uint8_t &channel, LEDController* communicator);
+    LEDController(const std::string &ip, const uint8_t &channel, std::function<void(boost::asio::ip::udp::endpoint, const unsigned char*, size_t)> commFunction);
 
     void setColor(const char &red, const char &green, const char &blue);
 
@@ -130,10 +128,8 @@ private:
 
     uint8_t channel;
 
-    LEDController* comDevice;
+    std::function<void(boost::asio::ip::udp::endpoint, const unsigned char*, size_t)> sendFunction;
 
-    boost::asio::io_service* service;
-    boost::asio::ip::udp::socket* socket;
     boost::asio::ip::udp::endpoint* partner;
 };
 
