@@ -16,6 +16,8 @@ public:
         , eLEDBedroom
         , eLEDBedroomReading
         , eKodi
+        , eLEDKitchenRGB
+        , eLEDKitchenWhite
     };
 
     enum Mode
