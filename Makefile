@@ -8,6 +8,7 @@ build/onkyo/OnkyoManager.o \
 build/benq/BenQServer.o \
 build/sensors/MotionSensor.o \
 build/sensors/PCSensor.o \
+build/sensors/Switch.o \
 build/hmi/HMI.o \
 build/video/KodiController.o \
 build/video/VideoPlayer.o \
