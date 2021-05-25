@@ -28,6 +28,7 @@ public:
         , eIlluminateBedroomMode
         , eReadingMode
         , eKodiMode
+        , eIlluminateKitchenMode
     };
 
     static std::string enumToString(const Device &device);
