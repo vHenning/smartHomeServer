@@ -17,6 +17,7 @@ build/userModes/modes/IlluminateMode.o \
 build/userModes/modes/KodiMode.o \
 build/userModes/modes/OffMode.o \
 build/userModes/modes/PCMode.o \
+build/userModes/modes/ReadingMode.o \
 build/LED/LEDController.o \
 build/LED/LEDManager.o \
 build/CEC/CECControl.o

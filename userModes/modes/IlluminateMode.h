@@ -2,7 +2,6 @@
 #define ILLUMINATEMODE_H
 
 #include "../UserMode.h"
-#include "../../LED/LEDController.h"
 
 /**
  * This mode is activated if one or more LEDs shall illuminate an area
@@ -10,14 +9,11 @@
 class IlluminateMode : public UserMode
 {
 public:
-    IlluminateMode(LEDController* led, const Mode &type);
+    IlluminateMode();
 
 private:
 
-    void turnOnReadingLight();
     void turnOnBackgroundLight();
-
-    LEDController* led;
 };
 
 #endif // ILLUMINATEMODE_H

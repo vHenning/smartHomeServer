@@ -5,6 +5,7 @@
 #include "modes/PCMode.h"
 #include "modes/KodiMode.h"
 #include "modes/IlluminateMode.h"
+#include "modes/ReadingMode.h"
 #include "../LED/LEDManager.h"
 
 ModeManager* ModeManager::getInstance()
@@ -164,10 +165,10 @@ UserMode* ModeManager::getUserMode(UserMode::Mode type)
         return new PCMode();
         break;
     case UserMode::eIlluminateBedroomMode:
-        return new IlluminateMode(LEDManager::getInstance()->getUnit(LEDManager::eBedroom), UserMode::eIlluminateBedroomMode);
+        return new IlluminateMode();
         break;
     case UserMode::eReadingMode:
-        return new IlluminateMode(LEDManager::getInstance()->getUnit(LEDManager::eBedroomReading), UserMode::eReadingMode);
+        return new ReadingMode();
         break;
     case UserMode::eDVDMode:
         return 0;
