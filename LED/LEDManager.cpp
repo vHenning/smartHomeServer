@@ -8,10 +8,9 @@ LEDManager* LEDManager::getInstance()
 
 LEDManager::LEDManager() : socket(service, boost::asio::ip::udp::endpoint(boost::asio::ip::udp::v4(), 8002))
 {
-    units[eBedroom] = new LEDController("192.168.0.117", 0, std::bind(&LEDManager::sendBuffer, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3));
-    units[eBedroomReading] = new LEDController("192.168.0.117", 1, std::bind(&LEDManager::sendBuffer, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3));
-    units[eKitchenRGB] = new LEDController("192.168.0.196", 0, std::bind(&LEDManager::sendBuffer, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3));
-    units[eKitchenW] = new LEDController("192.168.0.196", 1, std::bind(&LEDManager::sendBuffer, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3));
+    units[eBedroom] = new LEDController("192.168.0.81", 0, std::bind(&LEDManager::sendBuffer, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3));
+    units[eBedroomReading] = new LEDController("192.168.0.82", 0, std::bind(&LEDManager::sendBuffer, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3));
+    units[eTV] = new LEDController("192.168.0.81", 1, std::bind(&LEDManager::sendBuffer, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3));
 }
 
 LEDController* LEDManager::getUnit(const Unit &unit)

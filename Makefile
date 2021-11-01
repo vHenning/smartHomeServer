@@ -14,7 +14,6 @@ build/video/VideoPlayer.o \
 build/userModes/ModeManager.o \
 build/userModes/UserMode.o \
 build/userModes/modes/IlluminateMode.o \
-build/userModes/modes/IlluminateKitchenMode.o \
 build/userModes/modes/KodiMode.o \
 build/userModes/modes/OffMode.o \
 build/userModes/modes/PCMode.o \

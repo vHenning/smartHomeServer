@@ -13,8 +13,6 @@ private:
     void turnOffStereo();
     void turnOffLEDBedroom();
     void turnOffLEDBedroomReading();
-    void turnOffLEDKitchenRGB();
-    void turnOffLEDKitchenWhite();
     void turnOffHMI();
     void turnOffKodi();
 };

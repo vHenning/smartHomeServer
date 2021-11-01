@@ -10,8 +10,7 @@ public:
     {
         eBedroom = 0
         , eBedroomReading = 1
-        , eKitchenRGB = 2
-        , eKitchenW = 3
+        , eTV = 2
         , eUnitCount
     };
 

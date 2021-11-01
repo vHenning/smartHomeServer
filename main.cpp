@@ -8,7 +8,6 @@
 #include "userModes/ModeManager.h"
 
 #include "hmi/HMI.h"
-#include "sensors/Switch.h"
 
 void init(PCSensor* pc, MotionSensor* motion, ModeManager* manager)
 {
@@ -19,18 +18,6 @@ void init(PCSensor* pc, MotionSensor* motion, ModeManager* manager)
     // Add motion handler for bedroom
     motion->addMotionHandler(1, boost::bind(&ModeManager::addMode, manager, UserMode::eIlluminateBedroomMode));
     motion->addMotionStopHandler(1, boost::bind(&ModeManager::removeMode, manager, UserMode::eIlluminateBedroomMode), 120);
-}
-
-void switchLight()
-{
-    if (ModeManager::getInstance()->isActive(UserMode::eIlluminateKitchenMode))
-    {
-        ModeManager::getInstance()->removeMode(UserMode::eIlluminateKitchenMode);
-    }
-    else
-    {
-        ModeManager::getInstance()->addMode(UserMode::eIlluminateKitchenMode);
-    }
 }
 
 int main (int, char**)
@@ -44,9 +31,6 @@ int main (int, char**)
     init(&pcSensor, &motionSensor, manager);
 
     HMI::getInstance();
-
-    Switch sw;
-    sw.listeners[0].push_back(std::bind(&switchLight));
 
     while (true)
     {
