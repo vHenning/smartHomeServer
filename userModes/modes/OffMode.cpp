@@ -14,14 +14,7 @@ OffMode::OffMode() : UserMode(eOffMode)
     devices[eLEDKitchenRGB] = std::make_pair(lowest, std::bind(&OffMode::turnOffLEDKitchenRGB, this));
     devices[eLEDKitchenWhite] = std::make_pair(lowest, std::bind(&OffMode::turnOffLEDKitchenWhite, this));
     devices[eHMI] = std::make_pair(lowest, std::bind(&OffMode::turnOffHMI, this));
-    devices[eBeamer] = std::make_pair(lowest, std::bind(&OffMode::turnOffBeamer, this));
     devices[eKodi] = std::make_pair(lowest, std::bind(&OffMode::turnOffKodi, this));
-}
-
-void OffMode::turnOffBeamer()
-{
-    BenQServer* server = BenQServer::getInstance();
-    server->setPowerState(BenQServer::ePowerStandby);
 }
 
 void OffMode::turnOffHMI()

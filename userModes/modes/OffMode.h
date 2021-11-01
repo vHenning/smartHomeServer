@@ -16,7 +16,6 @@ private:
     void turnOffLEDKitchenRGB();
     void turnOffLEDKitchenWhite();
     void turnOffHMI();
-    void turnOffBeamer();
     void turnOffKodi();
 };
 

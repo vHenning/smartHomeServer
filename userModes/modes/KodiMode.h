@@ -11,7 +11,6 @@ public:
 private:
     void turnOnKodi();
     void turnOnHMI();
-    void turnOnBeamer();
     void turnOnStereo();
 
     /**

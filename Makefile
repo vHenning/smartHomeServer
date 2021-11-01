@@ -5,7 +5,6 @@ build/sound/Sound.o \
 build/sound/MaryClient.o \
 build/onkyo/OnkyoServer.o \
 build/onkyo/OnkyoManager.o \
-build/benq/BenQServer.o \
 build/sensors/MotionSensor.o \
 build/sensors/PCSensor.o \
 build/sensors/Switch.o \
@@ -36,10 +35,6 @@ build/sound/%.o: sound/%.cpp
 
 build/onkyo/%.o: onkyo/%.cpp
 	mkdir -p build/onkyo/
-	$(CXX) -c $(FLAGS) $< -o $@
-
-build/benq/%.o: benq/%.cpp
-	mkdir -p build/benq/
 	$(CXX) -c $(FLAGS) $< -o $@
 
 build/sensors/%.o: sensors/%.cpp
