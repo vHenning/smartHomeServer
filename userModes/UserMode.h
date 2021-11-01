@@ -12,7 +12,6 @@ public:
     {
         eHMI
         , eStereo
-        , eBeamer
         , eLEDBedroom
         , eLEDBedroomReading
         , eKodi

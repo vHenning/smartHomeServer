@@ -6,8 +6,6 @@ std::string UserMode::enumToString(const Device &device)
     {
     case eStereo:
         return "Stereo";
-    case eBeamer:
-        return "Beamer";
     case eHMI:
         return "HMI";
     case eLEDBedroom:
