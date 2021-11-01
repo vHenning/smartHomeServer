@@ -26,6 +26,8 @@ FLAGS = -std=c++11 -Wall -Wextra -I /usr/local/include/boost/boost_1_73_0 -MD
 
 LDLIBS = -lasound -pthread -lvlc -lcec -ldl
 
+all: build/smartHomeServer.bin
+
 build/smartHomeServer.bin : $(OBJ) main.cpp
 	$(CXX) main.cpp $(OBJ) -o build/smartHomeServer.bin $(FLAGS) $(LDLIBS)
 
