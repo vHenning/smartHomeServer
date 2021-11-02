@@ -28,42 +28,42 @@ LDLIBS = -lasound -pthread -lvlc -lcec -ldl
 
 all: build/smartHomeServer.bin
 
-build/smartHomeServer.bin : $(OBJ) main.cpp
-	$(CXX) main.cpp $(OBJ) -o build/smartHomeServer.bin $(FLAGS) $(LDLIBS)
+build/smartHomeServer.bin : $(OBJ) src/main.cpp
+	$(CXX) src/main.cpp $(OBJ) -o build/smartHomeServer.bin $(FLAGS) $(LDLIBS)
 
-build/sound/%.o: sound/%.cpp
+build/sound/%.o: src/sound/%.cpp
 	mkdir -p build/sound/
 	$(CXX) -c $(FLAGS) $< -o $@
 
-build/onkyo/%.o: onkyo/%.cpp
+build/onkyo/%.o: src/onkyo/%.cpp
 	mkdir -p build/onkyo/
 	$(CXX) -c $(FLAGS) $< -o $@
 
-build/sensors/%.o: sensors/%.cpp
+build/sensors/%.o: src/sensors/%.cpp
 	mkdir -p build/sensors/
 	$(CXX) -c $(FLAGS) $< -o $@
 
-build/hmi/%.o: hmi/%.cpp
+build/hmi/%.o: src/hmi/%.cpp
 	mkdir -p build/hmi/
 	$(CXX) -c $(FLAGS) $< -o $@
 
-build/video/%.o: video/%.cpp
+build/video/%.o: src/video/%.cpp
 	mkdir -p build/video/
 	$(CXX) -c $(FLAGS) $< -o $@
 
-build/userModes/%.o: userModes/%.cpp
+build/userModes/%.o: src/userModes/%.cpp
 	mkdir -p build/userModes/
 	$(CXX) -c $(FLAGS) $< -o $@
 
-build/userModes/modes/%.o: userModes/modes/%.cpp
+build/userModes/modes/%.o: src/userModes/modes/%.cpp
 	mkdir -p build/userModes/modes/
 	$(CXX) -c $(FLAGS) $< -o $@
 
-build/LED/%.o: LED/%.cpp
+build/LED/%.o: src/LED/%.cpp
 	mkdir -p build/LED/
 	$(CXX) -c $(FLAGS) $< -o $@
 
-build/CEC/%.o: CEC/%.cpp
+build/CEC/%.o: src/CEC/%.cpp
 	mkdir -p build/CEC/
 	$(CXX) -c $(FLAGS) $< -o $@
 
