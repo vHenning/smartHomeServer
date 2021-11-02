@@ -14,6 +14,7 @@ public:
 private:
 
     void turnOnBackgroundLight();
+    void turnOnTVLight();
 };
 
 #endif // ILLUMINATEMODE_H

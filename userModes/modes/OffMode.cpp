@@ -11,6 +11,7 @@ OffMode::OffMode() : UserMode(eOffMode)
     devices[eStereo] = std::make_pair(lowest, std::bind(&OffMode::turnOffStereo, this));
     devices[eLEDBedroom] = std::make_pair(lowest, std::bind(&OffMode::turnOffLEDBedroom, this));
     devices[eLEDBedroomReading] = std::make_pair(lowest, std::bind(&OffMode::turnOffLEDBedroomReading, this));
+    devices[eLEDTV] = std::make_pair(lowest, std::bind(&OffMode::turnOffLEDTV, this));
     devices[eHMI] = std::make_pair(lowest, std::bind(&OffMode::turnOffHMI, this));
     devices[eKodi] = std::make_pair(lowest, std::bind(&OffMode::turnOffKodi, this));
 }
@@ -31,6 +32,13 @@ void OffMode::turnOffLEDBedroom()
 void OffMode::turnOffLEDBedroomReading()
 {
     LEDController* controller = LEDManager::getInstance()->getUnit(LEDManager::eBedroomReading);
+    controller->setFilter(true);
+    controller->setDim(0.0);
+}
+
+void OffMode::turnOffLEDTV()
+{
+    LEDController* controller = LEDManager::getInstance()->getUnit(LEDManager::eTV);
     controller->setFilter(true);
     controller->setDim(0.0);
 }
