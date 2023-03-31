@@ -22,7 +22,7 @@ build/LED/LEDController.o \
 build/LED/LEDManager.o \
 build/CEC/CECControl.o
 
-FLAGS = -std=c++11 -Wall -Wextra -I /usr/local/include/boost/boost_1_73_0 -MD
+FLAGS = -std=c++11 -Wall -Wextra -I /usr/local/include/boost/boost_1_78_0 -MD
 
 LDLIBS = -lasound -pthread -lvlc -lcec -ldl
 

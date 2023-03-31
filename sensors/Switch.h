@@ -2,6 +2,8 @@
 #define SWITCH_H
 
 #include <boost/asio/ip/udp.hpp>
+#include <map>
+#include <mutex>
 #include <thread>
 #include <functional>
 

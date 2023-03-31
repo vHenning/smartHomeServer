@@ -4,6 +4,7 @@
 #include <boost/asio/ip/udp.hpp>
 #include <boost/asio/steady_timer.hpp>
 #include <functional>
+#include <map>
 #include <thread>
 
 class MotionSensor
