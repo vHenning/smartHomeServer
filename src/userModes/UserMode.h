@@ -14,6 +14,7 @@ public:
         , eStereo
         , eLEDBedroom
         , eLEDBedroomReading
+        , eLEDDesk
         , eLEDTV
         , eKodi
     };

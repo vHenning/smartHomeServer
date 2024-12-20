@@ -13,6 +13,7 @@ private:
     void turnOffStereo();
     void turnOffLEDBedroom();
     void turnOffLEDBedroomReading();
+    void turnOffLEDDesk();
     void turnOffLEDTV();
     void turnOffHMI();
     void turnOffKodi();

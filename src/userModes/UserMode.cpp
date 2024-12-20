@@ -12,6 +12,8 @@ std::string UserMode::enumToString(const Device &device)
         return "Background LED Bedroom";
     case eLEDBedroomReading:
         return "Reading LED Bedroom";
+    case eLEDDesk:
+        return "LED Desk";
     case eLEDTV:
         return "TV Background LED";
     case eKodi:

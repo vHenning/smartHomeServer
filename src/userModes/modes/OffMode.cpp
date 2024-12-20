@@ -11,6 +11,7 @@ OffMode::OffMode() : UserMode(eOffMode)
     devices[eStereo] = std::make_pair(lowest, std::bind(&OffMode::turnOffStereo, this));
     devices[eLEDBedroom] = std::make_pair(lowest, std::bind(&OffMode::turnOffLEDBedroom, this));
     devices[eLEDBedroomReading] = std::make_pair(lowest, std::bind(&OffMode::turnOffLEDBedroomReading, this));
+    devices[eLEDDesk] = std::make_pair(lowest, std::bind(&OffMode::turnOffLEDDesk, this));
     devices[eLEDTV] = std::make_pair(lowest, std::bind(&OffMode::turnOffLEDTV, this));
     devices[eHMI] = std::make_pair(lowest, std::bind(&OffMode::turnOffHMI, this));
     devices[eKodi] = std::make_pair(lowest, std::bind(&OffMode::turnOffKodi, this));
@@ -25,21 +26,30 @@ void OffMode::turnOffHMI()
 void OffMode::turnOffLEDBedroom()
 {
     LEDController* controller = LEDManager::getInstance()->getUnit(LEDManager::eBedroom);
-    controller->setFilter(true);
+//    controller->setFilter(true);
+    controller->setFilterValues(0.002, 200);
     controller->setDim(0.0);
 }
 
 void OffMode::turnOffLEDBedroomReading()
 {
     LEDController* controller = LEDManager::getInstance()->getUnit(LEDManager::eBedroomReading);
-    controller->setFilter(true);
+    controller->setFilterValues(0.002, 200);
+//    controller->setFilter(true);
     controller->setDim(0.0);
 }
 
 void OffMode::turnOffLEDTV()
 {
     LEDController* controller = LEDManager::getInstance()->getUnit(LEDManager::eTV);
-    controller->setFilter(true);
+//    controller->setFilter(true);
+    controller->setFilterValues(0.002, 200);
+    controller->setDim(0.0);
+}
+
+void OffMode::turnOffLEDDesk()
+{
+    LEDController* controller = LEDManager::getInstance()->getUnit(LEDManager::eDesk);
     controller->setDim(0.0);
 }
 
