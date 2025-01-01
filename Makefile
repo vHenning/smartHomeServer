@@ -1,3 +1,5 @@
+include LED/aaplus/Makefile
+
 CXX = g++
 
 OBJ = build/sound/SoundServer.o \
@@ -28,8 +30,8 @@ LDLIBS = -lasound -pthread -lvlc -lcec -ldl
 
 all: build/smartHomeServer.bin
 
-build/smartHomeServer.bin : $(OBJ) main.cpp
-	$(CXX) main.cpp $(OBJ) -o build/smartHomeServer.bin $(FLAGS) $(LDLIBS)
+build/smartHomeServer.bin : $(OBJ) main.cpp $(AAPP_OBJS)
+	$(CXX) main.cpp $(OBJ) $(AAPP_OBJS) -o build/smartHomeServer.bin $(FLAGS) $(LDLIBS)
 
 build/sound/%.o: sound/%.cpp
 	mkdir -p build/sound/
@@ -63,6 +65,10 @@ build/LED/%.o: LED/%.cpp
 	mkdir -p build/LED/
 	$(CXX) -c $(FLAGS) $< -o $@
 
+build/LED/aaplus/%.o: LED/aaplus/%.cpp
+	mkdir -p build/LED/aaplus/
+	$(CXX) -c $(FLAGS) $< -o $@
+
 build/CEC/%.o: CEC/%.cpp
 	mkdir -p build/CEC/
 	$(CXX) -c $(FLAGS) $< -o $@
@@ -71,5 +77,3 @@ build/CEC/%.o: CEC/%.cpp
 
 clean:
 	rm -fdr build
-
-
