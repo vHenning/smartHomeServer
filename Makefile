@@ -22,6 +22,7 @@ build/userModes/modes/PCMode.o \
 build/userModes/modes/ReadingMode.o \
 build/LED/LEDController.o \
 build/LED/LEDManager.o \
+build/LED/Rayleigh.o \
 build/CEC/CECControl.o
 
 FLAGS = -std=c++17 -Wall -Wextra -I /usr/local/include/boost/boost_1_78_0 -MD -g
