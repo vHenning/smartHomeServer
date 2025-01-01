@@ -43,6 +43,22 @@ void LEDController::setDim(const double &dim)
     sendBuffer(buffer, sizeof(DimMessage));
 }
 
+void LEDController::setWhiteDim(const double &dim)
+{
+    WhiteDimMessage msg(channel, dim);
+    unsigned char buffer[sizeof(WhiteDimMessage)];
+    memcpy(buffer, &msg, sizeof(WhiteDimMessage));
+    sendBuffer(buffer, sizeof(WhiteDimMessage));
+}
+
+void LEDController::setWhiteTemp(const double &temperature)
+{
+    WhiteTemperatureMessage msg(channel, temperature);
+    unsigned char buffer[sizeof(WhiteTemperatureMessage)];
+    memcpy(buffer, &msg, sizeof(WhiteTemperatureMessage));
+    sendBuffer(buffer, sizeof(WhiteTemperatureMessage));
+}
+
 void LEDController::setValues(const char &red, const char &green, const char &blue, const bool &raw /*= false*/)
 {
 #ifdef DEBUG
@@ -95,4 +111,12 @@ void LEDController::setFilterValues(const double &capacitance, const double &imp
     unsigned char buffer[sizeof(FilterValueBufferMessage)];
     memcpy(buffer, &msg, sizeof(FilterValueBufferMessage));
     sendBuffer(buffer, sizeof(FilterValueBufferMessage));
+}
+
+void LEDController::turnOn(const bool &on)
+{
+    TurnOnOffMessage msg(channel, on);
+    unsigned char buffer[sizeof(TurnOnOffMessage)];
+    memcpy(buffer, &msg, sizeof(TurnOnOffMessage));
+    sendBuffer(buffer, sizeof(TurnOnOffMessage));
 }
