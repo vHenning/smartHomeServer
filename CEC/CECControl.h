@@ -2,11 +2,17 @@
 #define CEC_CONTROL_H
 
 #include <libcec/cec.h>
+#include <vector>
+#include <functional>
 
 class CECControl
 {
 public:
     static CECControl* getInstance();
+
+    std::vector<std::function<void (bool)> > onOffListeners;
+
+    void setCommand();
 
 private:
     CECControl();
