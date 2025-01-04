@@ -25,56 +25,51 @@ void CECControl::setCommand()
     adapter->Transmit(cmd);
 }
 
-void CECControl::commandReceived(void*, const CEC::cec_command* cmd)
+void CECControl::commandReceived(void* params, const CEC::cec_command* cmd)
 {
-    fprintf(stderr, "Command received. Opcode: %s Size %d\n", CECControl::getInstance()->adapter->ToString(cmd->opcode), cmd->Size());
-
-    if (cmd->initiator == CEC::cec_logical_address::CECDEVICE_TV)
+    // We Listen for the active TV source. We receive opcodes
+    // 0x80 Routing Change
+    // 0x82 Active Source:      This is sent when we switch to the internal TV receiver (i.e. regular )
+    // 0x86 Set Stream Path:    This is sent when we switch to an input source (e.g. HDMI1)
+    char dataAsString[CEC_MAX_DATA_PACKET_SIZE * 2];
+    memset(dataAsString, 0, CEC_MAX_DATA_PACKET_SIZE * 2);
+    for (int i = 0; i < cmd->parameters.size; ++i)
     {
-        if (cmd->opcode == CEC::cec_opcode::CEC_OPCODE_REPORT_POWER_STATUS)
-        {
-            if (cmd->Size() > 0)
-            {
-                if (cmd->parameters[0] == CEC::CEC_POWER_STATUS_ON || cmd->parameters[0] == CEC::CEC_POWER_STATUS_STANDBY)
-                {
-                    bool on = cmd->parameters[0] == CEC::CEC_POWER_STATUS_ON;
-
-                    CECControl* instance = CECControl::getInstance();
-                    if (on)
-                    {
-                        printf("Command received, on\n");
-                        // instance->setCommand();
-                    }
-                }
-            }
-        }
-
+        sprintf(&dataAsString[i*2], "%X", cmd->parameters[i]);
     }
+    printf("Command received from %d opcode 0x%X payload %s\n", cmd->initiator, cmd->opcode, dataAsString);
 
-    for (size_t i = 0; i < cmd->Size(); ++i)
+    // If this is a source command, copy it to instance to send it again from time to time
+    if (cmd->initiator == CEC::cec_logical_address::CECDEVICE_TV && (cmd->opcode == CEC::cec_opcode::CEC_OPCODE_ACTIVE_SOURCE || cmd->opcode == CEC::cec_opcode::CEC_OPCODE_SET_STREAM_PATH))
     {
-        fprintf(stderr, "%02X", cmd->parameters[i]);
+        CECControl* instance = static_cast<CECControl*>(params);
+        memcpy(instance->lastCommand, cmd, sizeof(CEC::cec_command));
     }
 }
 
 void CECControl::onKeyPress(void*, const CEC::cec_keypress* msg)
 {
-    fprintf(stderr, "Key %d\n", static_cast<int>(msg->keycode));
+    printf("Key received\n");
+    return;
 }
 
 CECControl::CECControl()
 {
     CEC::ICECCallbacks* callbacks = new CEC::ICECCallbacks();
     callbacks->Clear();
-    callbacks->keyPress = &CECControl::onKeyPress;
-    callbacks->commandReceived = &CECControl::commandReceived;
+    callbacks->keyPress = CECControl::onKeyPress;
+    callbacks->commandReceived = CECControl::commandReceived;
 
     CEC::libcec_configuration config;
     config.Clear();
 
+    lastCommand = NULL;
+
+    memset(&config, 0, sizeof(config));
     config.clientVersion = CEC::LIBCEC_VERSION_CURRENT;
-    config.bActivateSource = false;
+    snprintf(config.strDeviceName, sizeof(config.strDeviceName), "CECScanner");
     config.callbacks = callbacks;
+    config.callbackParam = this;
 
     fprintf(stderr, "Calling initialise\n");
     adapter = LibCecInitialise(&config);
@@ -83,20 +78,28 @@ CECControl::CECControl()
         fprintf(stderr, "adapter is null");
         return;
     }
-    CEC::cec_adapter_descriptor* descriptor = new CEC::cec_adapter_descriptor();
-    int8_t found = adapter->DetectAdapters(descriptor, 1);
+    CEC::cec_adapter_descriptor descriptors[10];
+    int8_t found = adapter->DetectAdapters(descriptors, 10);
+    for (int i = 0; i < found; ++i)
+    {
+        printf("Found device %s\n", descriptors[i].strComName);
+    }
     if (found > 0)
     {
-        adapter->Close();
-        fprintf(stderr, "Found device %s\n", descriptor->strComName);
-        if (!adapter->Open(descriptor->strComName))
+        printf("Connecting name %s path %s\n", descriptors[0].strComName, descriptors[0].strComPath);
+        bool result = adapter->Open(descriptors[0].strComName, 10000);
+        if (!result)
         {
-            fprintf(stderr, "Could not open device.\n");
-            if (!adapter->Open(descriptor->strComPath))
-            {
-                fprintf(stderr, "And also not path\n");
-            }
+            printf("Failed opening device\n");
         }
+        else
+        {
+            printf("Successfully connected.\n");
+        }
+    }
+    else
+    {
+        printf("No devices found\n");
     }
 
     fprintf(stderr, "ID: %d\n", adapter->GetAdapterProductId());

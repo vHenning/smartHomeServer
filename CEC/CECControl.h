@@ -22,6 +22,8 @@ private:
 
     static void commandReceived(void*, const CEC::cec_command* cmd);
 
+    // Last command that contains info about TV input source
+    CEC::cec_command* lastCommand;
 };
 
 #endif
