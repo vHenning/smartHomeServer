@@ -1,6 +1,7 @@
 #ifndef USERMODE_H
 #define USERMODE_H
 
+#include <string>
 #include <map>
 #include <vector>
 #include <functional>

@@ -1,6 +1,7 @@
 #ifndef HMI_H
 #define HMI_H
 
+#include <string>
 #include <vector>
 #include <thread>
 #include <unordered_map>

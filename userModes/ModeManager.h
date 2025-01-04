@@ -1,6 +1,7 @@
 #ifndef MODEMANAGER_H
 #define MODEMANAGER_H
 
+#include <string>
 #include <map>
 #include "UserMode.h"
 

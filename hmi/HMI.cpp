@@ -1,5 +1,6 @@
 #include "HMI.h"
 
+#include <string>
 #include <linux/input.h>
 #include <fcntl.h>
 #include <unistd.h>
