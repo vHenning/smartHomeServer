@@ -4,6 +4,7 @@
 #include <libcec/cec.h>
 #include <vector>
 #include <functional>
+#include <thread>
 
 class CECControl
 {
@@ -22,8 +23,14 @@ private:
 
     static void commandReceived(void*, const CEC::cec_command* cmd);
 
+    void runThread();
+
     // Last command that contains info about TV input source
     CEC::cec_command* lastCommand;
+
+    std::thread* runner;
+
+    bool running;
 };
 
 #endif

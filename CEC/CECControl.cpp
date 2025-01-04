@@ -42,8 +42,25 @@ void CECControl::commandReceived(void* params, const CEC::cec_command* cmd)
     // If this is a source command, copy it to instance to send it again from time to time
     if (cmd->initiator == CEC::cec_logical_address::CECDEVICE_TV && (cmd->opcode == CEC::cec_opcode::CEC_OPCODE_ACTIVE_SOURCE || cmd->opcode == CEC::cec_opcode::CEC_OPCODE_SET_STREAM_PATH))
     {
+        printf("Saving new input command\n");
         CECControl* instance = static_cast<CECControl*>(params);
+        if (!instance->lastCommand)
+        {
+            instance->lastCommand = new CEC::cec_command;
+        }
         memcpy(instance->lastCommand, cmd, sizeof(CEC::cec_command));
+    }
+
+    // If the TV is turned off (=standby), delete the last command so we dont keep sending it while its turned off
+    if (cmd->initiator == CEC::cec_logical_address::CECDEVICE_TV && cmd->opcode == CEC::cec_opcode::CEC_OPCODE_STANDBY)
+    {
+        printf("TV turned off. Deleting input command\n");
+        CECControl* instance = static_cast<CECControl*>(params);
+        if (instance->lastCommand)
+        {
+            delete instance->lastCommand;
+            instance->lastCommand = 0;
+        }
     }
 }
 
@@ -54,6 +71,7 @@ void CECControl::onKeyPress(void*, const CEC::cec_keypress* msg)
 }
 
 CECControl::CECControl()
+    : running(true)
 {
     CEC::ICECCallbacks* callbacks = new CEC::ICECCallbacks();
     callbacks->Clear();
@@ -103,4 +121,23 @@ CECControl::CECControl()
     }
 
     fprintf(stderr, "ID: %d\n", adapter->GetAdapterProductId());
+
+    // Start new thread that repeats TV input source occasionally
+    runner = new std::thread(&CECControl::runThread, this);
+}
+
+void CECControl::runThread()
+{
+    while (running)
+    {
+        usleep(5000000);
+
+        if (lastCommand)
+        {
+            printf("Sending command\n");
+            CEC::cec_command command = *lastCommand;
+            command.initiator = CEC::cec_logical_address::CECDEVICE_FREEUSE;
+            adapter->Transmit(command);
+        }
+    }
 }
