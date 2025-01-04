@@ -89,19 +89,21 @@ CECControl::CECControl()
     config.callbacks = callbacks;
     config.callbackParam = this;
 
-    fprintf(stderr, "Calling initialise\n");
+    printf("Calling initialize\n");
     adapter = LibCecInitialise(&config);
     if (adapter == 0)
     {
-        fprintf(stderr, "adapter is null");
+        printf("adapter is null");
         return;
     }
+    printf("Called initialise\n");
     CEC::cec_adapter_descriptor descriptors[10];
     int8_t found = adapter->DetectAdapters(descriptors, 10);
     for (int i = 0; i < found; ++i)
     {
         printf("Found device %s\n", descriptors[i].strComName);
     }
+    printf("Found %d CEC devices\n", found);
     if (found > 0)
     {
         printf("Connecting name %s path %s\n", descriptors[0].strComName, descriptors[0].strComPath);
@@ -120,7 +122,7 @@ CECControl::CECControl()
         printf("No devices found\n");
     }
 
-    fprintf(stderr, "ID: %d\n", adapter->GetAdapterProductId());
+    printf("ID: %d\n", adapter->GetAdapterProductId());
 
     // Start new thread that repeats TV input source occasionally
     runner = new std::thread(&CECControl::runThread, this);
