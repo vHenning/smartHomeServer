@@ -22,6 +22,7 @@ void LEDManager::sendBuffer(const boost::asio::ip::udp::endpoint &destination, c
 {
     // TODO separate send thread
     std::lock_guard<std::mutex> m(socketMutex);
+    socket.wait(boost::asio::ip::udp::socket::wait_write);
     socket.send_to(boost::asio::buffer(buffer, size), destination);
     usleep(10000);
 }
