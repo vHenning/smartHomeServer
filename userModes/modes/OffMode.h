@@ -16,6 +16,7 @@ private:
     void turnOffLEDTV();
     void turnOffHMI();
     void turnOffKodi();
+    void turnOffLEDDesk();
 };
 
 #endif // OFFMODE_H

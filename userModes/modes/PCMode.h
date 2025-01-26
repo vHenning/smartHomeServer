@@ -10,6 +10,7 @@ public:
 
 private:
     void turnOnStereo();
+    void turnOnLED();
 };
 
 #endif // PCMODE_H

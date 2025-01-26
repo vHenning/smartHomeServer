@@ -14,6 +14,7 @@ OffMode::OffMode() : UserMode(eOffMode)
     devices[eLEDTV] = std::make_pair(lowest, std::bind(&OffMode::turnOffLEDTV, this));
     devices[eHMI] = std::make_pair(lowest, std::bind(&OffMode::turnOffHMI, this));
     devices[eKodi] = std::make_pair(lowest, std::bind(&OffMode::turnOffKodi, this));
+    devices[eLEDDesk] = std::make_pair(lowest, std::bind(&OffMode::turnOffLEDDesk, this));
 }
 
 void OffMode::turnOffHMI()
@@ -54,4 +55,10 @@ void OffMode::turnOffStereo()
 void OffMode::turnOffKodi()
 {
     KodiController::getInstance()->quit();
+}
+
+void OffMode::turnOffLEDDesk()
+{
+    LEDController* controller = LEDManager::getInstance()->getUnit(LEDManager::eDesk);
+    controller->turnOn(false);
 }

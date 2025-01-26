@@ -13,6 +13,7 @@ public:
         eBedroom = 0
         , eBedroomReading = 1
         , eTV = 2
+        , eDesk = 3
         , eUnitCount
     };
 
