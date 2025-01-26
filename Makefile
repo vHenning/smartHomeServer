@@ -25,9 +25,9 @@ build/LED/LEDManager.o \
 build/LED/Rayleigh.o \
 build/CEC/CECControl.o
 
-FLAGS = -std=c++17 -Wall -Wextra -I /usr/local/include/boost/boost_1_78_0 -MD -g
+FLAGS = -std=c++17 -Wall -Wextra -I /usr/local/include/boost/boost_1_73_0 -MD -g
 
-LDLIBS = -lasound -pthread -lvlc -lcec -ldl
+LDLIBS = -lasound -pthread -lvlc -lcec -ldl -lstdc++fs
 
 all: build/smartHomeServer.bin
 
