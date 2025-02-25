@@ -23,11 +23,13 @@ build/userModes/modes/ReadingMode.o \
 build/LED/LEDController.o \
 build/LED/LEDManager.o \
 build/LED/Rayleigh.o \
-build/CEC/CECControl.o
+build/CEC/CECControl.o \
+build/MQTT/MQTT.o\
+build/MQTT/devices/MotionSensor.o\
 
-FLAGS = -std=c++17 -Wall -Wextra -I /usr/local/include/boost/boost_1_73_0 -MD -g
+FLAGS = -std=c++17 -Wall -Wextra -I /usr/local/include/boost/boost_1_78_0 -MD -g
 
-LDLIBS = -lasound -pthread -lvlc -lcec -ldl -lstdc++fs
+LDLIBS = -lasound -pthread -lvlc -lcec -ldl -lstdc++fs -L/usr/local/lib -lpaho-mqttpp3 -lpaho-mqtt3a -lpaho-mqtt3c -lssl -lcrypto
 
 all: build/smartHomeServer.bin
 
@@ -72,6 +74,14 @@ build/LED/aaplus/%.o: LED/aaplus/%.cpp
 
 build/CEC/%.o: CEC/%.cpp
 	mkdir -p build/CEC/
+	$(CXX) -c $(FLAGS) $< -o $@
+
+build/MQTT/%.o: MQTT/%.cpp
+	mkdir -p build/MQTT/
+	$(CXX) -c $(FLAGS) $< -o $@
+
+build/MQTT/devices/%.o: MQTT/devices/%.cpp
+	mkdir -p build/MQTT/devices/
 	$(CXX) -c $(FLAGS) $< -o $@
 
 -include $(OBJ:.o=.d)
