@@ -26,6 +26,7 @@ build/LED/Rayleigh.o \
 build/CEC/CECControl.o \
 build/MQTT/MQTT.o\
 build/MQTT/devices/MotionSensor.o\
+build/MQTT/devices/Switch.o
 
 FLAGS = -std=c++17 -Wall -Wextra -I /usr/local/include/boost/boost_1_78_0 -MD -g
 
