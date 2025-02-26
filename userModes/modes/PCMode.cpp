@@ -20,9 +20,8 @@ void PCMode::turnOnStereo()
 void PCMode::turnOnLED()
 {
     LEDController* controller = LEDManager::getInstance()->getUnit(LEDManager::eDesk);
-    controller->setDim(0.5);
+    controller->setDim(0);
     controller->setWhiteDim(0.5);
     controller->setWhiteTemp(4000);
-    controller->setColor(0xFF, 0xFF, 0xFF);
     controller->turnOn(true);
 }
