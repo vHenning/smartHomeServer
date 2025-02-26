@@ -18,6 +18,8 @@ std::string UserMode::enumToString(const Device &device)
         return "Kodi";
     case eLEDDesk:
         return "Desk Background LED";
+    case eLEDKitchenSink:
+        return "Kitchen Sink LED";
     }
     return "Unknown";
 }
@@ -38,6 +40,8 @@ std::string UserMode::enumToString(const Mode &mode)
         return "Reading Bedroom";
     case eKodiMode:
         return "Kodi";
+    case eCookingMode:
+        return "Cooking";
     }
     return "Unknown";
 }

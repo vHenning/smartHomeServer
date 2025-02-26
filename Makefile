@@ -20,6 +20,7 @@ build/userModes/modes/KodiMode.o \
 build/userModes/modes/OffMode.o \
 build/userModes/modes/PCMode.o \
 build/userModes/modes/ReadingMode.o \
+build/userModes/modes/CookingMode.o \
 build/LED/LEDController.o \
 build/LED/LEDManager.o \
 build/LED/Rayleigh.o \

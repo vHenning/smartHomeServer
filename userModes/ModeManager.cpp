@@ -6,6 +6,7 @@
 #include "modes/KodiMode.h"
 #include "modes/IlluminateMode.h"
 #include "modes/ReadingMode.h"
+#include "modes/CookingMode.h"
 #include "../LED/LEDManager.h"
 
 ModeManager* ModeManager::getInstance()
@@ -175,6 +176,10 @@ UserMode* ModeManager::getUserMode(UserMode::Mode type)
         break;
     case UserMode::eKodiMode:
         return new KodiMode();
+        break;
+    case UserMode::eCookingMode:
+        return new CookingMode();
+        break;
     }
     return 0;
 }

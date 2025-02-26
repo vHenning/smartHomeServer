@@ -14,6 +14,7 @@ public:
         , eBedroomReading = 1
         , eTV = 2
         , eDesk = 3
+        , eKitchenSink = 4
         , eUnitCount
     };
 

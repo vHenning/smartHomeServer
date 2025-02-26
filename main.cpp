@@ -9,6 +9,8 @@
 
 #include "hmi/HMI.h"
 
+#include "MQTT/devices/Switch.h"
+
 void init(MotionSensor* motion, ModeManager* manager)
 {
     // Add PC Handler
@@ -20,13 +22,28 @@ void init(MotionSensor* motion, ModeManager* manager)
     motion->addMotionStopHandler(1, boost::bind(&ModeManager::removeMode, manager, UserMode::eIlluminateBedroomMode), 120);
 }
 
+void switchHandler(bool on)
+{
+    ModeManager* manager = ModeManager::getInstance();
+    if (on)
+    {
+        manager->addMode(UserMode::eCookingMode);
+    }
+    else
+    {
+        manager->removeMode(UserMode::eCookingMode);
+    }
+}
+
 int main (int, char**)
 {
     ModeManager* manager = ModeManager::getInstance();
     manager->addMode(UserMode::eOffMode);
 
-    MotionSensor motionSensor;
+    Switch kitchen("unter_schrank_LED");
+    kitchen.addHandler(std::bind(switchHandler, std::placeholders::_1));
 
+    MotionSensor motionSensor;
     init(&motionSensor, manager);
 
     HMI::getInstance();
