@@ -21,6 +21,8 @@ public:
 
     void setWhiteTemp(const double &temperature);
 
+    void setWhiteMaxBrightness(const bool &maxWhite);
+
     void setFilter(const bool &on);
 
     void setFilterValues(const double &capacitance, const double &impedance);
@@ -156,6 +158,19 @@ private:
       uint32_t id;
       uint8_t channel;
       double temperature;
+    };
+
+    struct __attribute__((__packed__)) WhiteMaxBrightnessMessage
+    {
+      WhiteMaxBrightnessMessage(const uint8_t &channel, const bool &maxBrightness)
+        : id(0x109)
+        , channel(channel)
+        , maxWhite(maxBrightness)
+      {}
+
+      uint32_t id;
+      uint8_t channel;
+      bool maxWhite;
     };
 
     struct __attribute__((__packed__)) TurnOnOffMessage

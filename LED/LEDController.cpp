@@ -59,6 +59,14 @@ void LEDController::setWhiteTemp(const double &temperature)
     sendBuffer(buffer, sizeof(WhiteTemperatureMessage));
 }
 
+void LEDController::setWhiteMaxBrightness(const bool &maxWhite)
+{
+    WhiteMaxBrightnessMessage msg(channel, maxWhite);
+    unsigned char buffer[sizeof(WhiteMaxBrightnessMessage)];
+    memcpy(buffer, &msg, sizeof(WhiteMaxBrightnessMessage));
+    sendBuffer(buffer, sizeof(WhiteMaxBrightnessMessage));
+}
+
 void LEDController::setValues(const char &red, const char &green, const char &blue, const bool &raw /*= false*/)
 {
 #ifdef DEBUG
