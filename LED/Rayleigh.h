@@ -36,6 +36,11 @@ namespace Rayleigh
      * @param time In: time object
      */
     double getJulian(std::tm time);
+
+    double planck(double lambda, double T);
+
+    double levenberg_marquardt(double wavelengths[], double intensities[], int size, double T_init);
+    double levenberg_marquardt_normal(double wavelengths[], double intensities[], int size, double T_init);
 } // namespace Rayleigh
 
 #endif // RAYLEIGH_H
