@@ -154,3 +154,40 @@ double Rayleigh::levenberg_marquardt_normal(double wavelengths[], double intensi
 
     return T;
 }
+
+double Rayleigh::getColorTemperature(double zenith)
+{
+    double** intensities = new double*[3];
+
+    intensities[0] = new double[2];
+    intensities[0][0] = Rayleigh::RED_WAVELENGTH;
+    intensities[0][1] = Rayleigh::getTransmission(zenith, Rayleigh::RED_WAVELENGTH);
+    intensities[1] = new double[2];
+    intensities[1][0] = Rayleigh::GREEN_WAVELENGTH;
+    intensities[1][1] = Rayleigh::getTransmission(zenith, Rayleigh::GREEN_WAVELENGTH);
+    intensities[2] = new double[2];
+    intensities[2][0] = Rayleigh::BLUE_WAVELENGTH;
+    intensities[2][1] = Rayleigh::getTransmission(zenith, Rayleigh::BLUE_WAVELENGTH);
+
+    double justIntensities[3];
+    double justWavelengths[3];
+
+    for (int i = 0; i < 3; ++i)
+    {
+        justIntensities[i] = intensities[i][1];
+        justWavelengths[i] = intensities[i][0];
+    }
+
+    double startTemp = 4750;
+    return Rayleigh::levenberg_marquardt_normal(justWavelengths, justIntensities, 3, startTemp);
+}
+
+std::vector<double> Rayleigh::getRGB(double zenith)
+{
+    std::vector<double> result;
+    result.push_back(getTransmission(zenith, RED_WAVELENGTH));
+    result.push_back(getTransmission(zenith, GREEN_WAVELENGTH));
+    result.push_back(getTransmission(zenith, BLUE_WAVELENGTH));
+
+    return result;
+}

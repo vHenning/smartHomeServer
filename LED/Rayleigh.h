@@ -1,6 +1,7 @@
 #ifndef RAYLEIGH_H
 #define RAYLEIGH_H
 
+#include <vector>
 #include <ctime>
 
 namespace Rayleigh
@@ -67,6 +68,23 @@ namespace Rayleigh
      * @return Estimated color temperature [K]
      */
     double levenberg_marquardt_normal(double wavelengths[], double intensities[], int size, double T_init);
+
+    /**
+     * Get color temperature of light received by the sun shining through the atmosphere at the given zenith angle.
+     *
+     * @param zenith The angle between the sun and zenith (sunset/sunrise = 90°, noon = 0°) [rad]
+     * @return Color temperature [K]
+     */
+    double getColorTemperature(double zenith);
+
+    /**
+     * Get RGB values of sunlight shining through the atmosphere at given zenith angle.
+     *
+     * @param The angle between the sun and zenith (sunset/sunrise = 90°, noon = 0°) [rad]
+     * @return Vector containing red, green and blue values (between 0 and 1)
+     */
+    std::vector<double> getRGB(double zenith);
+
 } // namespace Rayleigh
 
 #endif // RAYLEIGH_H
