@@ -37,9 +37,35 @@ namespace Rayleigh
      */
     double getJulian(std::tm time);
 
+    /**
+     * Get the spectral radiance of a black body for the given wavelength and temperature
+     *
+     * @param lambda Wavelength [m]
+     * @param T Temperature [K]
+     * @return Spectral radiance [W/(m² * Hz * sr)]
+     */
     double planck(double lambda, double T);
 
+    /**
+     * Estimate color temperature based on given radiances for given wavelengths
+     *
+     * @param wavelengths Array of wavelengths [m]
+     * @param intensities Array of spectral radiances [W/(m² * Hz * sr)]
+     * @param size Size of both arrays (they must be the same size)
+     * @param T_init Initial guess for the color temperature [K]
+     * @return Estimated color temperature [K]
+     */
     double levenberg_marquardt(double wavelengths[], double intensities[], int size, double T_init);
+
+    /**
+     * Estimate color temperature based on given radiances for given wavelengths. Only consider the ratio of the given values (normalize them).
+     *
+     * @param wavelengths Array of wavelengths [m]
+     * @param intensities Array of spectral radiance ratios [-]
+     * @param size Size of both arrays (they must be the same size)
+     * @param T_init Initial guess for the color temperature [K]
+     * @return Estimated color temperature [K]
+     */
     double levenberg_marquardt_normal(double wavelengths[], double intensities[], int size, double T_init);
 } // namespace Rayleigh
 
