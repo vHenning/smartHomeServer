@@ -16,6 +16,9 @@ OffMode::OffMode() : UserMode(eOffMode)
     devices[eKodi] = std::make_pair(lowest, std::bind(&OffMode::turnOffKodi, this));
     devices[eLEDDesk] = std::make_pair(lowest, std::bind(&OffMode::turnOffLEDDesk, this));
     devices[eLEDKitchenSink] = std::make_pair(lowest, std::bind(&OffMode::turnOffLEDKitchen, this));
+    devices[eLEDDining] = std::make_pair(lowest, std::bind(&OffMode::turnOffLEDDining, this));
+    devices[eLEDLiving] = std::make_pair(lowest, std::bind(&OffMode::turnOffLEDLiving, this));
+    devices[eLEDLivingTV] = std::make_pair(lowest, std::bind(&OffMode::turnOffLEDLivingTV, this));
 }
 
 void OffMode::turnOffHMI()
@@ -67,5 +70,21 @@ void OffMode::turnOffLEDDesk()
 void OffMode::turnOffLEDKitchen()
 {
     LEDController* controller = LEDManager::getInstance()->getUnit(LEDManager::eKitchenSink);
+    controller->turnOn(false);
+}
+
+void OffMode::turnOffLEDDining()
+{
+    LEDController* controller = LEDManager::getInstance()->getUnit(LEDManager::eDiningRoom);
+    controller->turnOn(false);
+}
+void OffMode::turnOffLEDLiving()
+{
+    LEDController* controller = LEDManager::getInstance()->getUnit(LEDManager::eLivingRoom);
+    controller->turnOn(false);
+}
+void OffMode::turnOffLEDLivingTV()
+{
+    LEDController* controller = LEDManager::getInstance()->getUnit(LEDManager::eLivingRoomTV);
     controller->turnOn(false);
 }

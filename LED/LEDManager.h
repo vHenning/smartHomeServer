@@ -15,6 +15,10 @@ public:
         , eTV = 2
         , eDesk = 3
         , eKitchenSink = 4
+
+        , eDiningRoom
+        , eLivingRoomTV
+        , eLivingRoom
         , eUnitCount
     };
 

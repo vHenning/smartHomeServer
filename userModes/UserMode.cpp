@@ -20,6 +20,12 @@ std::string UserMode::enumToString(const Device &device)
         return "Desk Background LED";
     case eLEDKitchenSink:
         return "Kitchen Sink LED";
+    case eLEDDining:
+        return "LED Dining";
+    case eLEDLiving:
+        return "LED Living room";
+    case eLEDLivingTV:
+        return "LED Living room TV";
     }
     return "Unknown";
 }
@@ -42,6 +48,12 @@ std::string UserMode::enumToString(const Mode &mode)
         return "Kodi";
     case eCookingMode:
         return "Cooking";
+    case eIlluminateDiningMode:
+        return "Illuminate dining";
+    case eIlluminateLivingMode:
+        return "Illuminate living room";
+    case eTVMode:
+        return "TV mode";
     }
     return "Unknown";
 }

@@ -18,6 +18,9 @@ private:
     void turnOffKodi();
     void turnOffLEDDesk();
     void turnOffLEDKitchen();
+    void turnOffLEDDining();
+    void turnOffLEDLiving();
+    void turnOffLEDLivingTV();
 };
 
 #endif // OFFMODE_H

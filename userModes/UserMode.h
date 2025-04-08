@@ -18,6 +18,9 @@ public:
         , eLEDDesk
         , eLEDKitchenSink
         , eKodi
+        , eLEDDining
+        , eLEDLivingTV
+        , eLEDLiving
     };
 
     enum Mode
@@ -29,6 +32,9 @@ public:
         , eReadingMode
         , eKodiMode
         , eCookingMode
+        , eIlluminateDiningMode
+        , eIlluminateLivingMode
+        , eTVMode
     };
 
     static std::string enumToString(const Device &device);

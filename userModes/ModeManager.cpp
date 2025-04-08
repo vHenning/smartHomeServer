@@ -7,6 +7,8 @@
 #include "modes/IlluminateMode.h"
 #include "modes/ReadingMode.h"
 #include "modes/CookingMode.h"
+#include "modes/IlluminateAscheberg.h"
+#include "modes/TVMode.h"
 #include "../LED/LEDManager.h"
 
 ModeManager* ModeManager::getInstance()
@@ -179,6 +181,13 @@ UserMode* ModeManager::getUserMode(UserMode::Mode type)
         break;
     case UserMode::eCookingMode:
         return new CookingMode();
+        break;
+    case UserMode::eIlluminateDiningMode:
+    case UserMode::eIlluminateLivingMode:
+        return new IlluminateAscheberg(type);
+        break;
+    case UserMode::eTVMode:
+        return new TVMode();
         break;
     }
     return 0;
