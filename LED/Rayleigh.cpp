@@ -137,7 +137,6 @@ double Rayleigh::levenberg_marquardt_normal(double wavelengths[], double intensi
 
         if (fabs(JTF) < epsilon)
         {
-            printf("Jacobian converged after %d iterations\n", iter);
             break;
         }
 
@@ -147,7 +146,6 @@ double Rayleigh::levenberg_marquardt_normal(double wavelengths[], double intensi
 
         if (fabs(delta_T) < epsilon)
         {
-            printf("Temperature converged after %d iterations\n", iter);
             break;
         }
     }
