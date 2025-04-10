@@ -19,6 +19,8 @@ public:
      * @param function 
      */
     void addHandler(std::string topic, std::function<void(std::string, std::string)> function);
+
+    void publish(std::string topic, std::string message);
     
 private:
     MQTT();

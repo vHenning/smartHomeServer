@@ -23,6 +23,12 @@ void MQTT::addHandler(std::string topic, std::function<void(std::string, std::st
     client.subscribe(topic, 1);
 }
 
+void MQTT::publish(std::string topic, std::string message)
+{
+    mqtt::message msg(mqtt::string_ref(topic), static_cast<void*>(message.data()), message.length());
+    client.publish(msg);
+}
+
 void MQTT::runner()
 {
     while (true)
