@@ -26,9 +26,12 @@ LEDController* LEDManager::getUnit(const Unit &unit)
 
 void LEDManager::sendBuffer(const boost::asio::ip::udp::endpoint &destination, const unsigned char *buffer, const size_t &size)
 {
-    // TODO separate send thread
-    std::lock_guard<std::mutex> m(socketMutex);
-    socket.wait(boost::asio::ip::udp::socket::wait_write);
-    socket.send_to(boost::asio::buffer(buffer, size), destination);
-    usleep(10000);
+    // TODO separate send thread#
+    for (int i = 0; i < 2; ++i)
+    {
+        std::lock_guard<std::mutex> m(socketMutex);
+        socket.wait(boost::asio::ip::udp::socket::wait_write);
+        socket.send_to(boost::asio::buffer(buffer, size), destination);
+        usleep(10000);
+    }
 }
