@@ -26,6 +26,7 @@ build/userModes/modes/TVMode.o \
 build/LED/LEDController.o \
 build/LED/LEDManager.o \
 build/LED/Rayleigh.o \
+build/LED/Dimmer.o \
 build/CEC/CECControl.o \
 build/MQTT/MQTT.o\
 build/MQTT/devices/MotionSensor.o\
