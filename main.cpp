@@ -20,13 +20,11 @@ void switchHandler(bool on)
     if (on)
     {
         manager->addMode(UserMode::eIlluminateLivingMode);
-        usleep(200000);
         manager->addMode(UserMode::eIlluminateDiningMode);
     }
     else
     {
         manager->removeMode(UserMode::eIlluminateLivingMode);
-        usleep(200000);
         manager->removeMode(UserMode::eIlluminateDiningMode);
     }
 }
